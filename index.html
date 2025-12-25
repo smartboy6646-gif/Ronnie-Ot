@@ -1,175 +1,119 @@
 <!DOCTYPE html>
-<html lang="ne">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OT Note</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Salary Calculator – Ronnie Ruchal</title>
 
 <style>
 body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-    background:#f1f5f9;
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#f1f6fc;
 }
-.app{
-    max-width:420px;
-    margin:auto;
-    background:#fff;
-    padding:18px;
-    border-radius:18px;
-    margin-top:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,.1);
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:14px;
 }
-h2{text-align:center;color:#1e3a8a;margin-bottom:4px}
-.sub{text-align:center;font-size:13px;color:#64748b;margin-bottom:15px}
-
-label{font-weight:600;color:#1e40af}
-input[type=time]{
-    width:100%;
-    padding:12px;
-    font-size:20px;
-    margin-top:8px;
-    border:2px solid #3b82f6;
-    border-radius:10px;
-    text-align:center;
+.card{
+  background:#fff;
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
-
+h2{text-align:center;color:#1e88e5}
+label{font-size:13px;color:#444}
+input,button,textarea{
+  width:100%;
+  padding:11px;
+  font-size:16px;
+  border-radius:8px;
+  border:1px solid #cfd8dc;
+  margin-top:6px;
+}
 button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:#2563eb;
-    color:#fff;
-    font-size:16px;
-    font-weight:700;
-    margin-top:15px;
+  background:#1e88e5;
+  color:#fff;
+  border:none;
 }
-
-.summary{
-    background:#0f172a;
-    color:#fff;
-    text-align:center;
-    padding:15px;
-    border-radius:14px;
-    margin-top:18px;
+.result{
+  font-size:14px;
+  line-height:1.6;
 }
-.total{
-    font-size:32px;
-    font-weight:800;
-    color:#4ade80;
-}
-
-table{width:100%;margin-top:18px;border-collapse:collapse}
-th,td{padding:10px;font-size:14px;border-bottom:1px solid #e5e7eb}
-th{color:#94a3b8;font-size:11px}
-.ot{color:#ef4444;font-weight:700}
-
-.del{
-    background:#fee2e2;
-    color:#ef4444;
-    border:none;
-    padding:5px 8px;
-    border-radius:6px;
-    font-size:12px;
-}
-
-.clear{
-    background:none;
-    color:#94a3b8;
-    font-size:11px;
-    margin-top:20px;
-}
+.bold{font-weight:600}
 </style>
 </head>
 
 <body>
-<div class="app">
-    <h2>Overtime Note 🕒</h2>
-    <div class="sub">Duty: 8:00 AM – 5:30 PM</div>
+<div class="container">
+<h2>Salary Calculator</h2>
 
-    <label>Out Time (PM)</label>
-    <input type="time" id="outTime" value="19:00">
+<div class="card">
+<label>Hourly Rate</label>
+<input id="rate" type="number" placeholder="Enter hourly rate">
+</div>
 
-    <button onclick="saveOT()">Save OT</button>
+<div class="card">
+<label>Paste OT Data (from Entry App)</label>
+<textarea id="data" rows="8"></textarea>
+<button onclick="calculate()">Calculate Salary</button>
+</div>
 
-    <div class="summary">
-        Total OT
-        <div class="total" id="total">0.00 hrs</div>
-    </div>
+<div class="card">
+<div class="result" id="output"></div>
+</div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>OT</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="list"></tbody>
-    </table>
-
-    <button class="clear" onclick="clearAll()">Clear All</button>
 </div>
 
 <script>
-const KEY="ot_data_v1";
+function calculate(){
+  let rate=+document.getElementById("rate").value;
+  let raw=document.getElementById("data").value.trim();
+  if(!rate || !raw) return alert("Rate or data missing");
 
-function saveOT(){
-    const t=document.getElementById("outTime").value;
-    if(!t){alert("Time select garnu");return}
+  let lines=raw.split("\n").slice(1);
+  let weekdayHours=0, otHours=0;
+  let sat=0,sun=0,hol=0;
 
-    const [h,m]=t.split(":").map(Number);
-    const duty=17*60+30;
-    const user=h*60+m;
+  lines.forEach(l=>{
+    let p=l.split(",");
+    let day=p[1];
+    let hours=parseFloat(p[4])||0;
 
-    if(user<=duty){
-        alert("5:30 PM pachi matra OT ganyincha");
-        return;
+    if(day==="weekday"){
+      weekdayHours+=Math.min(8,hours);
+      if(hours>8) otHours+=hours-8;
     }
+    if(day==="saturday") sat++;
+    if(day==="sunday") sun++;
+    if(day==="holiday") hol++;
+  });
 
-    const ot=((user-duty)/60).toFixed(2);
-    const d=new Date().toLocaleDateString("en-GB");
+  let basicPay=weekdayHours*rate;
+  let otPay=otHours*rate*1.5;
+  let satPay=sat*8*rate*1.5;
+  let sunPay=sun*8*rate*1.5;
+  let holPay=hol*8*rate*1.5;
 
-    const data=JSON.parse(localStorage.getItem(KEY))||[];
-    data.push({id:Date.now(),date:d,time:t,ot:ot});
-    localStorage.setItem(KEY,JSON.stringify(data));
-    show();
+  let total=basicPay+otPay+satPay+sunPay+holPay;
+
+  output.innerHTML=`
+  <div class="bold">Summary</div>
+  Weekday Basic Hours: ${weekdayHours}<br>
+  OT Hours: ${otHours}<br>
+  Saturday Days: ${sat}<br>
+  Sunday Days: ${sun}<br>
+  Public Holiday Days: ${hol}<hr>
+  Basic Pay: ${basicPay}<br>
+  OT Pay: ${otPay}<br>
+  Saturday Pay: ${satPay}<br>
+  Sunday Pay: ${sunPay}<br>
+  Holiday Pay: ${holPay}<hr>
+  <div class="bold">TOTAL: ${total}</div>
+  `;
 }
-
-function show(){
-    const data=JSON.parse(localStorage.getItem(KEY))||[];
-    let html="",total=0;
-    data.slice().reverse().forEach(e=>{
-        total+=parseFloat(e.ot);
-        html+=`
-        <tr>
-            <td>${e.date}</td>
-            <td>${e.time}</td>
-            <td class="ot">${e.ot}</td>
-            <td><button class="del" onclick="del(${e.id})">Del</button></td>
-        </tr>`;
-    });
-    document.getElementById("list").innerHTML=html;
-    document.getElementById("total").innerText=total.toFixed(2)+" hrs";
-}
-
-function del(id){
-    let d=JSON.parse(localStorage.getItem(KEY))||[];
-    d=d.filter(x=>x.id!==id);
-    localStorage.setItem(KEY,JSON.stringify(d));
-    show();
-}
-
-function clearAll(){
-    if(confirm("Sabai delete garne?")){
-        localStorage.removeItem(KEY);
-        show();
-    }
-}
-
-show();
 </script>
 </body>
 </html>
