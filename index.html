@@ -1,118 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Salary Calculator – Ronnie Ruchal</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salary – Ronnie Ruchal</title>
 <style>
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background:#f1f6fc;
-}
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:14px;
-}
-.card{
-  background:#fff;
-  padding:14px;
-  border-radius:12px;
-  margin-bottom:12px;
-  box-shadow:0 4px 12px rgba(0,0,0,.08);
-}
+body{margin:0;font-family:-apple-system;background:#f1f6fc}
+.container{max-width:420px;margin:auto;padding:14px}
+.card{background:#fff;padding:14px;border-radius:12px;margin-bottom:12px}
 h2{text-align:center;color:#1e88e5}
-label{font-size:13px;color:#444}
-input,button,textarea{
-  width:100%;
-  padding:11px;
-  font-size:16px;
-  border-radius:8px;
-  border:1px solid #cfd8dc;
-  margin-top:6px;
-}
-button{
-  background:#1e88e5;
-  color:#fff;
-  border:none;
-}
-.result{
-  font-size:14px;
-  line-height:1.6;
-}
+input,textarea,button{width:100%;padding:11px;margin-top:6px;font-size:16px}
+button{background:#1e88e5;color:#fff;border:none;border-radius:8px}
 .bold{font-weight:600}
 </style>
 </head>
-
 <body>
+
 <div class="container">
 <h2>Salary Calculator</h2>
 
 <div class="card">
-<label>Hourly Rate</label>
-<input id="rate" type="number" placeholder="Enter hourly rate">
+<input id="rate" type="number" placeholder="Hourly Rate">
 </div>
 
 <div class="card">
-<label>Paste OT Data (from Entry App)</label>
-<textarea id="data" rows="8"></textarea>
-<button onclick="calculate()">Calculate Salary</button>
+<textarea id="data" rows="8" placeholder="Paste data from App-1"></textarea>
+<button onclick="calc()">Calculate</button>
 </div>
 
-<div class="card">
-<div class="result" id="output"></div>
-</div>
-
+<div class="card" id="out"></div>
 </div>
 
 <script>
-function calculate(){
-  let rate=+document.getElementById("rate").value;
-  let raw=document.getElementById("data").value.trim();
-  if(!rate || !raw) return alert("Rate or data missing");
+function calc(){
+let r=+rate.value;
+let rows=data.value.trim().split("\n").slice(1);
 
-  let lines=raw.split("\n").slice(1);
-  let weekdayHours=0, otHours=0;
-  let sat=0,sun=0,hol=0;
+let basic=0, ot=0, night=0;
 
-  lines.forEach(l=>{
-    let p=l.split(",");
-    let day=p[1];
-    let hours=parseFloat(p[4])||0;
+rows.forEach(l=>{
+let p=l.split(",");
+let day=p[1], out=p[3], h=+p[4]||0;
 
-    if(day==="weekday"){
-      weekdayHours+=Math.min(8,hours);
-      if(hours>8) otHours+=hours-8;
-    }
-    if(day==="saturday") sat++;
-    if(day==="sunday") sun++;
-    if(day==="holiday") hol++;
-  });
+if(day=="weekday"){
+basic+=Math.min(8,h);
+if(h>8)ot+=h-8;
+}
 
-  let basicPay=weekdayHours*rate;
-  let otPay=otHours*rate*1.5;
-  let satPay=sat*8*rate*1.5;
-  let sunPay=sun*8*rate*1.5;
-  let holPay=hol*8*rate*1.5;
+if(day=="saturday"||day=="holiday"){
+ot+=8;
+}
 
-  let total=basicPay+otPay+satPay+sunPay+holPay;
+if(day=="sunday"){
+basic+=8;
+ot+=8;
+}
 
-  output.innerHTML=`
-  <div class="bold">Summary</div>
-  Weekday Basic Hours: ${weekdayHours}<br>
-  OT Hours: ${otHours}<br>
-  Saturday Days: ${sat}<br>
-  Sunday Days: ${sun}<br>
-  Public Holiday Days: ${hol}<hr>
-  Basic Pay: ${basicPay}<br>
-  OT Pay: ${otPay}<br>
-  Saturday Pay: ${satPay}<br>
-  Sunday Pay: ${sunPay}<br>
-  Holiday Pay: ${holPay}<hr>
-  <div class="bold">TOTAL: ${total}</div>
-  `;
+if(out!="-"){
+let hr=+out.split(":")[0];
+if(hr>=22)night+=Math.max(0,h-8);
+}
+});
+
+let total=basic*r + ot*r*1.5 + night*r*3;
+
+out.innerHTML=`
+<div class="bold">Basic Hours:</div>${basic}<br>
+<div class="bold">OT Hours:</div>${ot}<br>
+<div class="bold">Night Hours:</div>${night}<hr>
+<div class="bold">TOTAL:</div>${total}
+`;
 }
 </script>
 </body>
