@@ -3,79 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Ronnie Payroll Pro v2.3</title>
+<title>Ronnie Payroll Pro v2.5</title>
 <style>
-:root { --primary: #2962ff; --bg: #f0f4f8; --card-bg: #ffffff; --text: #333; --red: #ff5252; --green: #4caf50; }
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text); overflow-x: hidden;}
+:root { --primary: #2962ff; --bg: #f0f4f8; --card-bg: #ffffff; --text: #333; --red-dark: #b71c1c; --green: #2e7d32; }
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);}
 .container{max-width:420px;margin:auto;padding:12px;}
 h2{text-align:center;color:var(--primary);margin-bottom:2px;font-size: 24px;}
 .card{background:var(--card-bg);padding:16px;border-radius:16px;margin-bottom:12px;box-shadow:0 8px 20px rgba(0,0,0,.05);}
 label{font-size:12px;color:var(--primary);font-weight:bold;display:block;margin-bottom:4px;text-transform:uppercase;}
 
-/* Uniform Size for Date and Select */
-select, input[type="date"], input[type="number"], button {
-    width: 100%;
-    height: 50px; /* Standard height for all */
-    padding: 0 12px;
-    font-size: 16px;
-    border-radius: 12px;
-    border: 1.5px solid #d1d9e6;
-    margin-bottom: 12px;
-    box-sizing: border-box;
-    background-color: #fff;
-    outline: none;
-    display: block;
-}
-input[type="date"] { appearance: none; -webkit-appearance: none; }
-
-button{background:var(--primary);color:#fff;border:none;cursor:pointer;font-weight:bold; line-height: 50px; padding: 0;}
-button:active{transform:scale(0.96);}
-
-/* Horizontal Scroll Container for Summary */
-.scroll-wrapper {
-    display: flex;
-    overflow-x: auto;
-    gap: 12px;
-    padding-bottom: 10px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
-}
-.scroll-wrapper::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
-
-.summary-card {
-    min-width: 280px;
-    scroll-snap-align: center;
-    background: #0a192f;
-    color: #fff;
-    padding: 16px;
-    border-radius: 16px;
-    flex-shrink: 0;
+/* Standard UI Elements - Date and Select are now identical */
+select, input[type="date"], input[type="number"] {
+    width: 100%; height: 50px; padding: 0 12px; font-size: 16px; border-radius: 12px;
+    border: 1.5px solid #d1d9e6; margin-bottom: 12px; box-sizing: border-box; 
+    background-color: #fcfcfc; outline: none; color: #333; font-family: inherit;
 }
 
-/* Table Style */
-.table-card { overflow-x: auto; padding: 8px; }
-table{width:100%;border-collapse:collapse;font-size:12px;}
+/* Save Entry Button */
+.btn-save {
+    width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; 
+    border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-bottom: 10px;
+}
+
+/* History Table */
+table{width:100%;border-collapse:collapse;font-size:13px;}
 th{color:#90a4ae;text-align:center;border-bottom:1px solid #eee;padding-bottom:8px;}
-td{padding:12px 4px;border-bottom:1px solid #f9f9f9;text-align:center;}
-.row-weekend{background-color: #fff5f5;}
+td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
+.deep-red { color: var(--red-dark) !important; font-weight: 800 !important; }
 
-.report-title{font-size:16px;font-weight:bold;margin-bottom:12px;color:var(--green);border-bottom:1px solid #1e2d4d;padding-bottom:5px;}
-.report-line{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:#cbd5e0;}
+/* Monthly Summary Section */
+.report-card { background: #0a192f; color: #fff; padding: 20px; border-radius: 16px; margin-top: 10px; }
+.report-title{font-size:18px;font-weight:bold;margin-bottom:15px;color: #4caf50; border-bottom: 1px solid #1e2d4d; padding-bottom: 8px;}
+.report-line{display:flex;justify-content:space-between;font-size:14px;margin-bottom:10px;color:#cbd5e0;}
 .report-val{font-weight:bold;color:#fff;}
 
-.salary-box{background:#112240;padding:12px;border-radius:12px;margin-top:10px;text-align:center;border:1px solid var(--primary);}
-.total-amt{font-size:24px;color:var(--green);font-weight:bold;margin:8px 0;}
-.green-btn{background:var(--green); height: 40px; line-height: 40px;}
-.red-btn{background:var(--red); height: 40px; line-height: 40px; font-size: 12px; margin-top: 5px;}
+/* Salary Box with Big Button */
+.salary-box{background:#112240;padding:15px;border-radius:12px;margin-top:10px;text-align:center;border: 1px solid #1e2d4d;}
+.calc-btn {
+    width: 100%; height: 45px; background: var(--primary); color: #fff; border: none; 
+    border-radius: 8px; font-size: 16px; font-weight: bold; margin: 10px 0; cursor: pointer;
+}
+.total-amt{font-size:28px;color:#4caf50;font-weight:bold;margin:10px 0;}
+.red-btn{background:#d32f2f; width: 100%; height: 40px; color: #fff; border: none; border-radius: 8px; font-size: 14px; margin-top: 5px;}
 .hide{display:none;}
-.hint { text-align: center; font-size: 10px; color: #999; margin-top: -5px; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Ronnie Ruchal</h2>
-    <p style="text-align:center;margin-top:-6px;font-size:12px;color:#777;">Payroll Smart Tracker • v2.3.0</p>
+    <p style="text-align:center;margin-top:-6px;font-size:11px;color:#777;">Payroll Smart Tracker • v2.5.0</p>
 
     <div class="card">
         <label>Select Date</label>
@@ -102,44 +79,42 @@ td{padding:12px 4px;border-bottom:1px solid #f9f9f9;text-align:center;}
             <select id="outTime"></select>
         </div>
 
-        <button onclick="saveEntry()">Save Entry 💾</button>
+        <button class="btn-save" onclick="saveEntry()">Save Entry 💾</button>
     </div>
 
-    <p class="hint">← Slide side to see Summary & Salary →</p>
-    <div class="scroll-wrapper">
-        <div class="summary-card">
-            <div class="report-title">Monthly Analytics</div>
-            <div class="report-line"><span>📅 Weekday Basic:</span><span class="report-val" id="totalBasicHrs">0</span></div>
-            <div class="report-line"><span>🗓️ Saturday Worked:</span><span class="report-val" id="satStats">0 days</span></div>
-            <div class="report-line"><span>☀️ Sunday Worked:</span><span class="report-val" id="sunStats">0 days</span></div>
-            <div class="report-line"><span>🎈 Holiday Worked:</span><span class="report-val" id="holStats">0 days</span></div>
-            <div class="report-line"><span>⚙️ Normal OT (1.5x):</span><span class="report-val" id="totalNormalOt">0.0</span></div>
-            <div class="report-line"><span>🌙 Night OT (3.0x):</span><span class="report-val" id="totalNightOt">0.0</span></div>
-        </div>
-
-        <div class="summary-card" style="background: #112240;">
-            <div class="report-title" style="color: #4db8ff;">Salary & Tools</div>
-            <label style="color:#94a3b8; font-size: 10px;">Hourly Rate (₩)</label>
-            <input type="number" id="hourlyRate" value="11500" style="height: 35px; background: transparent; color: #fff; border: none; border-bottom: 1px solid var(--primary); text-align: center; font-size: 18px;">
-            <div class="total-amt">₩ <span id="finalSalary">0</span></div>
-            <button class="green-btn" onclick="exportToExcel()">📥 Excel Report</button>
-            <button class="red-btn" onclick="resetAll()">⚠️ Reset All</button>
-        </div>
-    </div>
-
-    <div class="card table-card">
-        <label>History (इतिहास)</label>
+    <div class="card">
+        <label style="margin-bottom:10px;">Recent History (इतिहास)</label>
         <table>
             <thead>
-                <tr><th>Date</th><th>Day</th><th>Basic</th><th>OT</th><th>Action</th></tr>
+                <tr><th>Date</th><th>Day</th><th>Basic</th><th>OT</th><th>Del</th></tr>
             </thead>
             <tbody id="historyBody"></tbody>
         </table>
     </div>
+
+    <div class="report-card">
+        <div class="report-title">Monthly Summary</div>
+        <div class="report-line"><span>📅 Weekday Basic:</span><span class="report-val" id="totalBasicHrs">0 hrs</span></div>
+        <div class="report-line"><span>🗓️ Saturday Worked:</span><span class="report-val" id="satStats">0 d</span></div>
+        <div class="report-line"><span>☀️ Sunday Worked:</span><span class="report-val" id="sunStats">0 d</span></div>
+        <div class="report-line"><span>🎈 Holiday Worked:</span><span class="report-val" id="holStats">0 d</span></div>
+        <div class="report-line"><span>⚙️ Normal OT (1.5x):</span><span class="report-val" id="totalNormalOt">0.0</span></div>
+        <div class="report-line"><span>🌙 Night OT (3.0x):</span><span class="report-val" id="totalNightOt">0.0</span></div>
+        
+        <div class="salary-box">
+            <label style="color:#94a3b8; font-size:11px;">Hourly Rate (₩)</label>
+            <input type="number" id="hourlyRate" value="11500" style="height: 40px; background: #fff; color: var(--primary); border: 1.5px solid var(--primary); text-align: center; font-size: 20px; font-weight: bold;">
+            
+            <button class="calc-btn" onclick="calculateSalary()">Calculate Total Salary</button>
+            
+            <div class="total-amt">₩ <span id="finalSalary">0</span></div>
+            <button class="red-btn" onclick="resetAll()">Reset This Month</button>
+        </div>
+    </div>
 </div>
 
 <script>
-const STORE_KEY="ronnie_pro_v2.3";
+const STORE_KEY="ronnie_pro_v2.5";
 let entries=JSON.parse(localStorage.getItem(STORE_KEY)||"[]");
 
 const weekdayTimes=["5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM","12:00 AM"];
@@ -233,20 +208,6 @@ function calculateSalary() {
     document.getElementById("finalSalary").innerText = Math.round(totalPay).toLocaleString();
 }
 
-function exportToExcel() {
-    if(entries.length === 0) return alert("No data!");
-    let csv = "Date,Day,Basic,OT,Night,Status\n";
-    entries.forEach(e => {
-        csv += `${e.date},${e.day},${e.basicHrs},${e.normalOt},${e.nightOt},${e.worked}\n`;
-    });
-    let blob = new Blob([csv], { type: 'text/csv' });
-    let url = window.URL.createObjectURL(blob);
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = `Payroll_${new Date().toISOString().slice(0,7)}.csv`;
-    a.click();
-}
-
 function renderHistory(){
     let body=document.getElementById("historyBody");
     body.innerHTML="";
@@ -261,13 +222,13 @@ function renderHistory(){
         }
         nOT += e.normalOt; niOT += e.nightOt;
 
+        let isHoliday = (e.day !== 'weekday');
         let tr=document.createElement("tr");
-        if(e.day !== 'weekday') tr.className = "row-weekend";
         tr.innerHTML=`<td>${e.date.slice(5)}</td>
-                      <td class="${e.day!=='weekday'?'red-text':''}">${e.day.toUpperCase()}</td>
+                      <td class="${isHoliday?'deep-red':''}">${e.day.toUpperCase()}</td>
                       <td>${e.basicHrs}</td>
                       <td style="font-weight:bold; color:#2962ff">${(e.normalOt+e.nightOt).toFixed(1)}</td>
-                      <td><button style="background:none;color:red;font-size:18px;width:auto;margin:0;height:auto;line-height:normal;" onclick="delEntry(${i})">🗑️</button></td>`;
+                      <td><button style="background:none;color:red;font-size:18px;width:auto;margin:0;height:auto;line-height:normal;border:none;" onclick="delEntry(${i})">🗑️</button></td>`;
         body.appendChild(tr);
     });
     document.getElementById("totalBasicHrs").innerText = wB + " hrs";
@@ -276,11 +237,10 @@ function renderHistory(){
     document.getElementById("holStats").innerText = hD + " d";
     document.getElementById("totalNormalOt").innerText = nOT.toFixed(1);
     document.getElementById("totalNightOt").innerText = niOT.toFixed(1);
-    calculateSalary();
 }
 
-function delEntry(i){ if(confirm("Delete?")){ entries.splice(i,1); localStorage.setItem(STORE_KEY, JSON.stringify(entries)); renderHistory(); } }
-function resetAll(){ if(confirm("Reset all data?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); renderHistory(); } }
+function delEntry(i){ if(confirm("Delete this entry?")){ entries.splice(i,1); localStorage.setItem(STORE_KEY, JSON.stringify(entries)); renderHistory(); calculateSalary(); } }
+function resetAll(){ if(confirm("Clear all data for this month?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); renderHistory(); document.getElementById("finalSalary").innerText = "0"; } }
 
 setInitialDate(); renderHistory();
 </script>
