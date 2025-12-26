@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Ronnie Payroll Pro v2.6</title>
+<title>Ronnie Payroll Pro v2.6.2</title>
 <style>
 :root { --primary: #2962ff; --bg: #f0f4f8; --card-bg: #ffffff; --text: #333; --red-dark: #b71c1c; --green: #2e7d32; }
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);}
@@ -12,12 +12,28 @@ h2{text-align:center;color:var(--primary);margin-bottom:2px;font-size: 24px;}
 .card{background:var(--card-bg);padding:16px;border-radius:16px;margin-bottom:12px;box-shadow:0 8px 20px rgba(0,0,0,.05);}
 label{font-size:12px;color:var(--primary);font-weight:bold;display:block;margin-bottom:4px;text-transform:uppercase;}
 
-/* Standard UI Elements - Fixed Date Height to match Select */
+/* Improved UI Consistency for Horizontal alignment */
 select, input[type="date"], input[type="number"] {
-    width: 100%; height: 48px; /* Perfectly aligned height */
-    padding: 0 12px; font-size: 14px; border-radius: 12px;
-    border: 1.5px solid #d1d9e6; margin-bottom: 12px; box-sizing: border-box; 
-    background-color: #fcfcfc; outline: none; color: #333;
+    width: 100%; /* Full width within container */
+    max-width: 100%;
+    height: 48px;
+    padding: 0 12px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d9e6;
+    margin-bottom: 12px;
+    box-sizing: border-box; /* Crucial for fixing horizontal length */
+    background-color: #fcfcfc;
+    outline: none;
+    color: #333;
+    display: block;
+}
+
+/* Fixing Date field specific quirks on iOS/Android */
+input[type="date"] {
+    position: relative;
+    -webkit-appearance: none;
+    min-height: 48px;
 }
 
 .btn-save {
@@ -37,7 +53,6 @@ td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
 
 .salary-box{background:#112240;padding:15px;border-radius:12px;margin-top:10px;text-align:center;border: 1px solid #1e2d4d;}
 
-/* Blue Calculate Button */
 .calc-btn {
     width: 100%; height: 48px; background: var(--primary); color: #fff; border: none; 
     border-radius: 8px; font-size: 16px; font-weight: bold; margin: 10px 0; cursor: pointer;
@@ -52,7 +67,7 @@ td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
 
 <div class="container">
     <h2>Ronnie Ruchal</h2>
-    <p style="text-align:center;margin-top:-6px;font-size:11px;color:#777;">Payroll Smart Tracker • v2.6.0</p>
+    <p style="text-align:center;margin-top:-6px;font-size:11px;color:#777;">Payroll Smart Tracker • v2.6.2</p>
 
     <div class="card">
         <label>Select Date</label>
@@ -104,9 +119,7 @@ td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
         <div class="salary-box">
             <label style="color:#94a3b8; font-size:11px;">Hourly Rate (₩)</label>
             <input type="number" id="hourlyRate" value="0" placeholder="Enter Rate" style="height: 40px; background: #fff; color: var(--primary); border: 1.5px solid var(--primary); text-align: center; font-size: 20px; font-weight: bold;">
-            
             <button class="calc-btn" onclick="calculateSalary()">Calculate Total Salary</button>
-            
             <div class="total-amt">₩ <span id="finalSalary">0</span></div>
             <button class="red-btn" onclick="resetAll()">Reset This Month</button>
         </div>
@@ -114,7 +127,7 @@ td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
 </div>
 
 <script>
-const STORE_KEY="ronnie_pro_v2.6";
+const STORE_KEY="ronnie_pro_v2.6.2";
 let entries=JSON.parse(localStorage.getItem(STORE_KEY)||"[]");
 
 const weekdayTimes=["5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM","12:00 AM"];
@@ -170,12 +183,10 @@ function updateUI(){
 function saveEntry(){
     let date = document.getElementById("inputDate").value;
     let day = document.getElementById("dayType").value;
-    if(entries.find(e=>e.date===date)) return alert("Date error!");
-
+    if(entries.find(e=>e.date===date)) return alert("Duplicate Date!");
     let outVal = document.getElementById("outTime").value || "5:30 PM";
     let workedVal = (day==="weekday") ? "yes" : document.getElementById("worked").value;
     let normalOt = 0, nightOt = 0, basicHrs = 0;
-
     if(day === "weekday") {
         basicHrs = 8;
         let outMins = timeToMins(outVal);
@@ -190,7 +201,6 @@ function saveEntry(){
             nightOt = Math.max(0, (outMins - 1320) / 60);
         }
     }
-
     entries.push({ date, day, worked:workedVal, normalOt, nightOt, basicHrs });
     entries.sort((a,b)=>new Date(b.date)-new Date(a.date));
     localStorage.setItem(STORE_KEY, JSON.stringify(entries));
@@ -212,16 +222,12 @@ function renderHistory(){
     let body=document.getElementById("historyBody");
     body.innerHTML="";
     let wB=0, nOT=0, niOT=0, sD=0, suD=0, hD=0;
-
     entries.forEach((e,i)=>{
         if(e.day==="weekday") wB += e.basicHrs;
         if(e.worked==="yes"){
-            if(e.day==="saturday") sD++;
-            else if(e.day==="sunday") suD++;
-            else if(e.day==="holiday") hD++;
+            if(e.day==="saturday") sD++; else if(e.day==="sunday") suD++; else if(e.day==="holiday") hD++;
         }
         nOT += e.normalOt; niOT += e.nightOt;
-
         let isHoliday = (e.day !== 'weekday');
         let tr=document.createElement("tr");
         tr.innerHTML=`<td>${e.date.slice(5)}</td>
@@ -240,7 +246,7 @@ function renderHistory(){
 }
 
 function delEntry(i){ if(confirm("Delete?")){ entries.splice(i,1); localStorage.setItem(STORE_KEY, JSON.stringify(entries)); renderHistory(); calculateSalary(); } }
-function resetAll(){ if(confirm("Reset all?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); renderHistory(); document.getElementById("finalSalary").innerText = "0"; } }
+function resetAll(){ if(confirm("Reset?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); renderHistory(); document.getElementById("finalSalary").innerText = "0"; } }
 
 setInitialDate(); renderHistory();
 </script>
