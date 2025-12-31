@@ -3,48 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Ronnie Payroll Pro v2.6.2</title>
+<title>Ronnie Payroll Pro v2.6.8</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-:root { --primary: #2962ff; --bg: #f0f4f8; --card-bg: #ffffff; --text: #333; --red-dark: #b71c1c; --green: #2e7d32; }
+:root { --primary: #2962ff; --bg: #f0f4f8; --card-bg: #ffffff; --text: #333; --red-highlight: #d32f2f; --warn: #ffab00; --green: #4caf50; }
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);}
 .container{max-width:420px;margin:auto;padding:12px;}
 h2{text-align:center;color:var(--primary);margin-bottom:2px;font-size: 24px;}
+
+#reminderBar {background: var(--warn); color: #000; padding: 10px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 13px; margin-bottom: 12px; display: none; animation: shake 0.5s;}
+@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
 .card{background:var(--card-bg);padding:16px;border-radius:16px;margin-bottom:12px;box-shadow:0 8px 20px rgba(0,0,0,.05);}
 label{font-size:12px;color:var(--primary);font-weight:bold;display:block;margin-bottom:4px;text-transform:uppercase;}
 
-/* Improved UI Consistency for Horizontal alignment */
-select, input[type="date"], input[type="number"] {
-    width: 100%; /* Full width within container */
-    max-width: 100%;
-    height: 48px;
-    padding: 0 12px;
-    font-size: 16px;
-    border-radius: 12px;
-    border: 1.5px solid #d1d9e6;
-    margin-bottom: 12px;
-    box-sizing: border-box; /* Crucial for fixing horizontal length */
-    background-color: #fcfcfc;
-    outline: none;
-    color: #333;
-    display: block;
-}
+select, input[type="date"], input[type="number"] {width: 100%; height: 48px; padding: 0 12px; font-size: 16px; border-radius: 12px; border: 1.5px solid #d1d9e6; margin-bottom: 12px; box-sizing: border-box; background-color: #fcfcfc; outline: none; color: #333; display: block; -webkit-appearance: none;}
 
-/* Fixing Date field specific quirks on iOS/Android */
-input[type="date"] {
-    position: relative;
-    -webkit-appearance: none;
-    min-height: 48px;
-}
+.btn-save {width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-bottom: 10px;}
 
-.btn-save {
-    width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; 
-    border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-bottom: 10px;
-}
-
+/* History Table Styles */
 table{width:100%;border-collapse:collapse;font-size:13px;}
 th{color:#90a4ae;text-align:center;border-bottom:1px solid #eee;padding-bottom:8px;}
 td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
-.deep-red { color: var(--red-dark) !important; font-weight: 800 !important; }
+
+/* Date Highlight Styles */
+.gate-font { font-size: 16px; font-weight: 900; color: #000; }
+.month-font { font-size: 10px; color: #666; font-weight: normal; }
+.holiday-row .gate-font { color: #fff; }
+.holiday-row .month-font { color: #eee; }
+
+.holiday-row { background-color: var(--red-highlight) !important; color: white !important; }
+.holiday-row td { border-bottom: 1px solid #b71c1c; }
+.holiday-row button { color: white !important; }
+
+/* Photo Export Section */
+#exportArea { background: var(--bg); border-radius: 16px; padding: 5px; }
 
 .report-card { background: #0a192f; color: #fff; padding: 20px; border-radius: 16px; margin-top: 10px; }
 .report-title{font-size:18px;font-weight:bold;margin-bottom:15px;color: #4caf50; border-bottom: 1px solid #1e2d4d; padding-bottom: 8px;}
@@ -52,27 +45,25 @@ td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
 .report-val{font-weight:bold;color:#fff;}
 
 .salary-box{background:#112240;padding:15px;border-radius:12px;margin-top:10px;text-align:center;border: 1px solid #1e2d4d;}
-
-.calc-btn {
-    width: 100%; height: 48px; background: var(--primary); color: #fff; border: none; 
-    border-radius: 8px; font-size: 16px; font-weight: bold; margin: 10px 0; cursor: pointer;
-}
-
+.calc-btn {width: 100%; height: 48px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; margin: 10px 0; cursor: pointer;}
+.photo-btn {width: 100%; height: 48px; background: var(--green); color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; margin-top: 10px; cursor: pointer;}
 .total-amt{font-size:28px;color:#4caf50;font-weight:bold;margin:10px 0;}
 .red-btn{background:#d32f2f; width: 100%; height: 40px; color: #fff; border: none; border-radius: 8px; font-size: 14px; margin-top: 5px;}
 .hide{display:none;}
+
+/* Image Export garda Del button lukaune */
+.exporting .del-col { display: none; }
 </style>
 </head>
 <body>
-
 <div class="container">
     <h2>Ronnie Ruchal</h2>
-    <p style="text-align:center;margin-top:-6px;font-size:11px;color:#777;">Payroll Smart Tracker • v2.6.2</p>
-
+    <div id="reminderBar">⚠️ Entry Missing! आजको डेटा हाल्नुभयो?</div>
+    
     <div class="card">
-        <label>Select Date</label>
+        <label>Select Date (मिति)</label>
         <input type="date" id="inputDate" onchange="autoDetectDay()">
-
+        
         <label>Day Type</label>
         <select id="dayType" onchange="updateUI()">
             <option value="weekday">Weekday (Mon-Fri)</option>
@@ -80,58 +71,75 @@ td{padding:12px 2px;border-bottom:1px solid #f9f9f9;text-align:center;}
             <option value="sunday">Sunday</option>
             <option value="holiday">Public Holiday</option>
         </select>
-
+        
         <div id="workedBox" class="hide">
             <label>Worked Today?</label>
             <select id="worked" onchange="updateUI()">
-                <option value="yes">Yes (काम गरेको)</option>
-                <option value="no">No (बिदा बसेको)</option>
+                <option value="yes">Yes (गरेको)</option>
+                <option value="no">No (नगरेको)</option>
             </select>
         </div>
-
-        <div id="outBox">
-            <label>Out Time (Exit)</label>
-            <select id="outTime"></select>
-        </div>
-
-        <button class="btn-save" onclick="saveEntry()">Save Entry 💾</button>
-    </div>
-
-    <div class="card">
-        <label style="margin-bottom:10px;">Recent History (इतिहास)</label>
-        <table>
-            <thead>
-                <tr><th>Date</th><th>Day</th><th>Basic</th><th>OT</th><th>Del</th></tr>
-            </thead>
-            <tbody id="historyBody"></tbody>
-        </table>
-    </div>
-
-    <div class="report-card">
-        <div class="report-title">Monthly Summary</div>
-        <div class="report-line"><span>📅 Weekday Basic:</span><span class="report-val" id="totalBasicHrs">0 hrs</span></div>
-        <div class="report-line"><span>🗓️ Saturday Worked:</span><span class="report-val" id="satStats">0 d</span></div>
-        <div class="report-line"><span>☀️ Sunday Worked:</span><span class="report-val" id="sunStats">0 d</span></div>
-        <div class="report-line"><span>🎈 Holiday Worked:</span><span class="report-val" id="holStats">0 d</span></div>
-        <div class="report-line"><span>⚙️ Normal OT (1.5x):</span><span class="report-val" id="totalNormalOt">0.0</span></div>
-        <div class="report-line"><span>🌙 Night OT (3.0x):</span><span class="report-val" id="totalNightOt">0.0</span></div>
         
-        <div class="salary-box">
-            <label style="color:#94a3b8; font-size:11px;">Hourly Rate (₩)</label>
-            <input type="number" id="hourlyRate" value="0" placeholder="Enter Rate" style="height: 40px; background: #fff; color: var(--primary); border: 1.5px solid var(--primary); text-align: center; font-size: 20px; font-weight: bold;">
-            <button class="calc-btn" onclick="calculateSalary()">Calculate Total Salary</button>
-            <div class="total-amt">₩ <span id="finalSalary">0</span></div>
-            <button class="red-btn" onclick="resetAll()">Reset This Month</button>
+        <div id="outBox"><label>Out Time</label><select id="outTime"></select></div>
+        <button class="btn-save" onclick="saveEntryWithSound()">Save Entry 💾</button>
+    </div>
+
+    <div id="exportArea">
+        <div class="card" style="margin-bottom:0; border-radius: 16px 16px 0 0;">
+            <label style="margin-bottom:10px;">History (OT Records)</label>
+            <table id="historyTable">
+                <thead><tr><th>Date</th><th>Day</th><th>Basic</th><th>OT</th><th class="del-col">Del</th></tr></thead>
+                <tbody id="historyBody"></tbody>
+            </table>
         </div>
+
+        <div class="report-card" style="margin-top:0; border-radius: 0 0 16px 16px;">
+            <div class="report-title">Monthly Summary</div>
+            <div class="report-line"><span>📅 Weekday Basic:</span><span class="report-val" id="totalBasicHrs">0 hrs</span></div>
+            <div class="report-line"><span>🗓️ Saturday:</span><span class="report-val" id="satStats">0 d</span></div>
+            <div class="report-line"><span>☀️ Sunday:</span><span class="report-val" id="sunStats">0 d</span></div>
+            <div class="report-line"><span>🎈 Holiday:</span><span class="report-val" id="holStats">0 d</span></div>
+            <div class="report-line"><span>⚙️ Normal OT:</span><span class="report-val" id="totalNormalOt">0.0</span></div>
+            <div class="report-line"><span>🌙 Night OT:</span><span class="report-val" id="totalNightOt">0.0</span></div>
+            
+            <div class="salary-box">
+                <div style="color:#aaa; font-size:12px; margin-bottom:5px;">Total Salary Estimate</div>
+                <div class="total-amt">₩ <span id="finalSalary">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="margin-top:15px;">
+        <label>Controls</label>
+        <input type="number" id="hourlyRate" placeholder="Hourly Rate (₩)" style="height:40px; width:100%; text-align:center; font-size:20px; border-radius:8px; border:1px solid #ddd;">
+        <button class="calc-btn" onclick="calculateSalary()">Calculate Salary</button>
+        <button class="photo-btn" onclick="downloadAsPhoto()">Download History (Photo) 📸</button>
+        <button class="red-btn" onclick="resetAll()">Reset Month</button>
     </div>
 </div>
 
 <script>
-const STORE_KEY="ronnie_pro_v2.6.2";
+const STORE_KEY="ronnie_pro_v2.6.8";
 let entries=JSON.parse(localStorage.getItem(STORE_KEY)||"[]");
-
 const weekdayTimes=["5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM","12:00 AM"];
 const weekendTimes=["5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM"];
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playBeep() {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
+    oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.1);
+}
+
+function checkDailyReminder() {
+    const today = new Date().toISOString().split('T')[0];
+    const exists = entries.find(e => e.date === today);
+    document.getElementById('reminderBar').style.display = exists ? 'none' : 'block';
+}
+
+function saveEntryWithSound() { playBeep(); saveEntry(); checkDailyReminder(); }
 
 function timeToMins(t) {
     if(!t) return 1050; 
@@ -140,20 +148,11 @@ function timeToMins(t) {
     h = parseInt(h);
     if (h === 12) h = (mod === 'AM') ? 0 : 12;
     else if (mod === 'PM') h += 12;
-    let mins = (h * 60) + parseInt(m);
-    return (mins === 0) ? 1440 : mins;
-}
-
-function setInitialDate() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('inputDate').value = today;
-    autoDetectDay();
+    return (h * 60) + parseInt(m);
 }
 
 function autoDetectDay() {
-    let dateVal = document.getElementById("inputDate").value;
-    if(!dateVal) return;
-    let d = new Date(dateVal);
+    let d = new Date(document.getElementById("inputDate").value);
     let dayNum = d.getDay(); 
     let daySelect = document.getElementById("dayType");
     if(dayNum === 0) daySelect.value = "sunday";
@@ -169,31 +168,26 @@ function updateUI(){
     out.innerHTML="";
     let currentTimes = (day === "weekday") ? weekdayTimes : weekendTimes;
     currentTimes.forEach(t=>{ let o=document.createElement("option"); o.value=t; o.text=t; out.appendChild(o); });
-
-    if(day==="weekday") {
-        document.getElementById("workedBox").classList.add("hide");
-        document.getElementById("outBox").classList.remove("hide");
-    } else {
-        document.getElementById("workedBox").classList.remove("hide");
-        if(worked==="no") document.getElementById("outBox").classList.add("hide");
-        else document.getElementById("outBox").classList.remove("hide");
-    }
+    if(day==="weekday") { document.getElementById("workedBox").classList.add("hide"); document.getElementById("outBox").classList.remove("hide"); }
+    else { document.getElementById("workedBox").classList.remove("hide"); if(worked==="no") document.getElementById("outBox").classList.add("hide"); else document.getElementById("outBox").classList.remove("hide"); }
 }
 
 function saveEntry(){
     let date = document.getElementById("inputDate").value;
-    let day = document.getElementById("dayType").value;
-    if(entries.find(e=>e.date===date)) return alert("Duplicate Date!");
+    let type = document.getElementById("dayType").value;
+    if(entries.find(e=>e.date===date)) return alert("यो मितिको डेटा पहिले नै छ!");
+
     let outVal = document.getElementById("outTime").value || "5:30 PM";
-    let workedVal = (day==="weekday") ? "yes" : document.getElementById("worked").value;
+    let workedVal = (type==="weekday") ? "yes" : document.getElementById("worked").value;
     let normalOt = 0, nightOt = 0, basicHrs = 0;
-    if(day === "weekday") {
+
+    if(type === "weekday") {
         basicHrs = 8;
         let outMins = timeToMins(outVal);
         normalOt = Math.max(0, (Math.min(outMins, 1320) - 1050) / 60);
         nightOt = Math.max(0, (outMins - 1320) / 60);
     } else {
-        if(day === "sunday") basicHrs = 8;
+        if(type === "sunday") basicHrs = 8;
         if(workedVal === "yes") {
             let outMins = timeToMins(outVal);
             let extraOt = Math.max(0, (Math.min(outMins, 1320) - 1050) / 60);
@@ -201,10 +195,50 @@ function saveEntry(){
             nightOt = Math.max(0, (outMins - 1320) / 60);
         }
     }
-    entries.push({ date, day, worked:workedVal, normalOt, nightOt, basicHrs });
-    entries.sort((a,b)=>new Date(b.date)-new Date(a.date));
+    entries.push({ date, type, worked:workedVal, normalOt, nightOt, basicHrs });
+    entries.sort((a,b)=>new Date(a.date)-new Date(b.date));
     localStorage.setItem(STORE_KEY, JSON.stringify(entries));
     renderHistory();
+}
+
+function renderHistory(){
+    let body=document.getElementById("historyBody");
+    body.innerHTML="";
+    let wB=0, nOT=0, niOT=0, sD=0, suD=0, hD=0;
+
+    entries.forEach((e,i)=>{
+        if(e.type==="weekday") wB += e.basicHrs;
+        if(e.worked==="yes"){
+            if(e.type==="saturday") sD++; else if(e.type==="sunday") suD++; else if(e.type==="holiday") hD++;
+        }
+        nOT += e.normalOt; niOT += e.nightOt;
+
+        let d = new Date(e.date);
+        let dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        let dayName = dayNames[d.getDay()];
+        
+        let gateStr = e.date.split('-')[2];
+        let monthStr = e.date.split('-')[1];
+        
+        let displayDay = (e.type === "holiday") ? "HOL (" + dayName + ")" : dayName;
+        let tr=document.createElement("tr");
+        if(e.type !== "weekday") tr.className = "holiday-row";
+        
+        tr.innerHTML=`<td><span class="gate-font">${gateStr}</span><br><span class="month-font">${monthStr} m</span></td>
+                      <td style="font-weight:bold">${displayDay}</td>
+                      <td>${e.basicHrs}</td>
+                      <td style="font-weight:bold">${(e.normalOt+e.nightOt).toFixed(1)}</td>
+                      <td class="del-col"><button style="background:none; border:none; color:red; cursor:pointer;" onclick="delEntry(${i})">🗑️</button></td>`;
+        body.appendChild(tr);
+    });
+    
+    document.getElementById("totalBasicHrs").innerText = wB + " hrs";
+    document.getElementById("satStats").innerText = sD + " d";
+    document.getElementById("sunStats").innerText = suD + " d";
+    document.getElementById("holStats").innerText = hD + " d";
+    document.getElementById("totalNormalOt").innerText = nOT.toFixed(1);
+    document.getElementById("totalNightOt").innerText = niOT.toFixed(1);
+    calculateSalary(); // Auto update salary on render
 }
 
 function calculateSalary() {
@@ -218,37 +252,35 @@ function calculateSalary() {
     document.getElementById("finalSalary").innerText = Math.round(totalPay).toLocaleString();
 }
 
-function renderHistory(){
-    let body=document.getElementById("historyBody");
-    body.innerHTML="";
-    let wB=0, nOT=0, niOT=0, sD=0, suD=0, hD=0;
-    entries.forEach((e,i)=>{
-        if(e.day==="weekday") wB += e.basicHrs;
-        if(e.worked==="yes"){
-            if(e.day==="saturday") sD++; else if(e.day==="sunday") suD++; else if(e.day==="holiday") hD++;
-        }
-        nOT += e.normalOt; niOT += e.nightOt;
-        let isHoliday = (e.day !== 'weekday');
-        let tr=document.createElement("tr");
-        tr.innerHTML=`<td>${e.date.slice(5)}</td>
-                      <td class="${isHoliday?'deep-red':''}">${e.day.toUpperCase()}</td>
-                      <td>${e.basicHrs}</td>
-                      <td style="font-weight:bold; color:#2962ff">${(e.normalOt+e.nightOt).toFixed(1)}</td>
-                      <td><button style="background:none;color:red;font-size:18px;width:auto;margin:0;height:auto;line-height:normal;border:none;" onclick="delEntry(${i})">🗑️</button></td>`;
-        body.appendChild(tr);
+// Naya Photo Download Function
+function downloadAsPhoto() {
+    const area = document.getElementById('exportArea');
+    const btn = document.querySelector('.photo-btn');
+    
+    btn.innerText = "Generating...";
+    area.classList.add('exporting'); // Delete button lukauna
+
+    html2canvas(area, {
+        backgroundColor: "#f0f4f8",
+        scale: 2, // High Quality photo ko lagi
+        logging: false
+    }).then(canvas => {
+        const link = document.createElement('a');
+        const dateStr = new Date().toISOString().split('T')[0];
+        link.download = `OT_Report_${dateStr}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        
+        area.classList.remove('exporting');
+        btn.innerText = "Download History (Photo) 📸";
     });
-    document.getElementById("totalBasicHrs").innerText = wB + " hrs";
-    document.getElementById("satStats").innerText = sD + " d";
-    document.getElementById("sunStats").innerText = suD + " d";
-    document.getElementById("holStats").innerText = hD + " d";
-    document.getElementById("totalNormalOt").innerText = nOT.toFixed(1);
-    document.getElementById("totalNightOt").innerText = niOT.toFixed(1);
 }
 
-function delEntry(i){ if(confirm("Delete?")){ entries.splice(i,1); localStorage.setItem(STORE_KEY, JSON.stringify(entries)); renderHistory(); calculateSalary(); } }
-function resetAll(){ if(confirm("Reset?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); renderHistory(); document.getElementById("finalSalary").innerText = "0"; } }
+function delEntry(i){ if(confirm("Delete?")){ entries.splice(i,1); localStorage.setItem(STORE_KEY, JSON.stringify(entries)); renderHistory(); checkDailyReminder(); } }
+function resetAll(){ if(confirm("सबै डेटा डिलेट गर्ने?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); renderHistory(); document.getElementById("finalSalary").innerText = "0"; checkDailyReminder(); } }
 
-setInitialDate(); renderHistory();
+document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+autoDetectDay(); renderHistory(); checkDailyReminder();
 </script>
 </body>
 </html>
