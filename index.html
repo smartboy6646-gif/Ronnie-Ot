@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#2962ff">
 <link rel="apple-touch-icon" href="logos.PNG">
-<title>Ronnie Payroll Pro v8.2</title>
+<title>Ronnie Payroll Pro v8.5</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* Base Variables */
@@ -24,7 +24,6 @@ body.theme-dark {
 }
 body.theme-dark .missing-row { background-color: #3e2723 !important; color: #ffab91 !important; border-left: 4px solid #ff5722; }
 body.theme-dark .date-big { color: #ffffff; }
-body.theme-dark .note-row-content { background: #262626; color: #bbb; border-top: 1px dashed #444; }
 body.theme-dark .bottom-nav { border-top: 1px solid #333; }
 /* Emerald Theme */
 body.theme-emerald {
@@ -45,11 +44,18 @@ h2 { text-align:center; color:var(--primary); margin: 5px 0 5px 0; }
 
 .card { background:var(--card-bg); padding:16px; border-radius:16px; margin-bottom:12px; box-shadow:0 8px 20px rgba(0,0,0,.05); position: relative; overflow: hidden; }
 label { font-size:11px; color:var(--primary); font-weight:bold; display:block; margin-bottom:4px; text-transform:uppercase; }
+
+/* Input field styling */
 select, input[type="date"], input[type="number"], input[type="text"] {
     width: 100%; height: 48px; padding: 0 12px; font-size: 15px; border-radius: 12px; 
     border: 1.5px solid var(--border-color); margin-bottom: 12px; box-sizing: border-box; 
     background-color: var(--input-bg); outline: none; color: var(--text); display: block;
+    text-align: left; 
+    -webkit-appearance: none;
+    appearance: none;
 }
+input[type="date"]::-webkit-date-and-time-value { text-align: left; } 
+
 .btn-save { width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
 
 /* Tabs Layout */
@@ -57,25 +63,27 @@ select, input[type="date"], input[type="number"], input[type="text"] {
 .tab-content.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Table Adjustments - 5 Columns */
+/* Table Adjustments - Fill the gap and increase font sizes */
 table { width:100%; border-collapse:collapse; font-size:12px; table-layout: fixed; }
-th { color:#90a4ae; padding-bottom:10px; text-align: center; border-bottom: 2px solid var(--border-color); font-size: 11px; }
-td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:center; vertical-align: middle; }
-.col-date { width: 18%; } .col-day { width: 22%; } .col-hrs { width: 15%; } .col-ot { width: 15%; } .col-out { width: 30%; }
+th { color:#78909c; padding-bottom:10px; text-align: center; border-bottom: 2px solid var(--border-color); font-size: 11px; font-weight: 600; }
+td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:center; vertical-align: middle; word-wrap: break-word; }
 
-.date-big { font-size: 16px; font-weight: 900; color: var(--text); display: block; }
-.month-small { font-size: 9px; color: #888; text-transform: uppercase; }
+/* Adjusted column widths to balance everything */
+.col-date { width: 16%; } 
+.col-day { width: 15%; } 
+.col-hrs { width: 10%; } 
+.col-ot { width: 12%; } 
+.col-out { width: 25%; }
+.col-note { width: 22%; font-size: 11px; color: #555; line-height: 1.3; text-align: left; padding-left: 6px; padding-right: 4px; }
+
+.date-big { font-size: 16px; font-weight: 900; color: var(--text); display: block; line-height: 1.1; }
+.month-small { font-size: 10px; color: #888; text-transform: uppercase; }
 .holiday-row { background-color: var(--red-highlight) !important; color: white !important; }
-.holiday-row .date-big, .holiday-row .month-small { color: white !important; }
+.holiday-row .date-big, .holiday-row .month-small, .holiday-row .col-note { color: white !important; }
 .missing-row { background-color: #fff3e0 !important; color: #e65100 !important; border-left: 4px solid #ff9800; }
 
-.td-rel { position: relative; }
-.dot { width: 8px; height: 8px; background-color: #4caf50; border-radius: 50%; position: absolute; left: 2px; top: 50%; transform: translateY(-50%); border: 1px solid white; }
-
-.note-btn { background: #e0e0e0; color: #333; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; margin-left: 5px; }
-.note-row { display: none; }
-.note-row.show { display: table-row; }
-.note-row-content { background: #f9fbfd; padding: 10px; text-align: left; font-size: 12px; color: #555; font-style: italic; border-top: 1px dashed var(--border-color); border-bottom: 2px solid var(--border-color); }
+.td-rel { position: relative; padding-left: 10px; }
+.dot { width: 8px; height: 8px; background-color: #4caf50; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%); border: 1px solid white; }
 
 /* Bottom Navigation */
 .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--nav-bg); display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 100; border-top: 1px solid var(--border-color); }
@@ -106,9 +114,12 @@ td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:
 @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
 @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-/* Used during photo export to force elements visible */
-body.export-mode .tab-content { display: block !important; }
-body.export-mode .bottom-nav { display: none !important; }
+/* EXPORT MODE */
+body.export-mode { padding-bottom: 10px !important; }
+body.export-mode .tab-content { display: none !important; } 
+body.export-mode #tabHistory { display: block !important; margin-bottom: 15px; } 
+body.export-mode #tabSummary { display: block !important; } 
+body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .action-btn, body.export-mode .hint-text, body.export-mode .theme-selector, body.export-mode #inputFormCard { display: none !important; } 
 </style>
 </head>
 <body>
@@ -129,7 +140,7 @@ body.export-mode .bottom-nav { display: none !important; }
     
     <div id="toast">डाटा सेभ भयो! ✅</div>
 
-    <!-- TAB 1: HOME (Entry + Last 3 Days) -->
+    <!-- TAB 1: HOME -->
     <div id="tabHome" class="tab-content active">
         <div class="card" id="inputFormCard">
             <label>Select Date</label>
@@ -157,7 +168,6 @@ body.export-mode .bottom-nav { display: none !important; }
                 <select id="outTime"></select>
             </div>
 
-            <!-- New Note Box -->
             <label>Note (Optional)</label>
             <input type="text" id="entryNote" placeholder="Short note here...">
 
@@ -168,17 +178,17 @@ body.export-mode .bottom-nav { display: none !important; }
             <h3 style="margin-top:0; font-size:14px; color:var(--primary); text-align:center;">Recent Entries (Last 3)</h3>
             <table>
                 <thead>
-                    <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out</th></tr>
+                    <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out</th><th class="col-note">Note</th></tr>
                 </thead>
                 <tbody id="recentHistoryBody"></tbody>
             </table>
         </div>
     </div>
 
-    <!-- TAB 2: HISTORY (All Data for Month) -->
+    <!-- TAB 2: HISTORY -->
     <div id="tabHistory" class="tab-content">
         <div class="card" style="padding-bottom: 5px;">
-            <div class="flex-between" style="background: #e3f2fd; padding: 8px; border-radius: 8px;">
+            <div class="flex-between" style="background: #e3f2fd; padding: 8px; border-radius: 8px;" id="monthSelectorBox">
                 <div style="display:flex; align-items:center;">
                     <span style="font-size:12px; font-weight:bold; color:var(--primary); margin-right:5px;">Month:</span>
                     <select id="monthSelector" onchange="changeMonth()" style="margin-bottom:0; height:35px; width:auto;"></select>
@@ -189,14 +199,14 @@ body.export-mode .bottom-nav { display: none !important; }
             
             <table>
                 <thead>
-                    <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out Time</th></tr>
+                    <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out Time</th><th class="col-note">Note</th></tr>
                 </thead>
                 <tbody id="fullHistoryBody"></tbody>
             </table>
         </div>
     </div>
 
-    <!-- TAB 3: SUMMARY & SETTINGS -->
+    <!-- TAB 3: SUMMARY -->
     <div id="tabSummary" class="tab-content">
         <div class="report-card" style="margin-bottom: 15px;">
             <div class="report-title">
@@ -264,7 +274,7 @@ body.export-mode .bottom-nav { display: none !important; }
 </nav>
 
 <script>
-const STORE_KEY="ronnie_pro_v8.2";
+const STORE_KEY="ronnie_pro_v8.4";
 let entries=JSON.parse(localStorage.getItem(STORE_KEY)||"[]");
 let pendingEntry = null; 
 let is24HourFormat = false; 
@@ -404,7 +414,7 @@ function executeSave() {
     entries.sort((a,b)=>new Date(a.date)-new Date(b.date));
     localStorage.setItem(STORE_KEY, JSON.stringify(entries));
     
-    document.getElementById("entryNote").value = ""; // Clear note input
+    document.getElementById("entryNote").value = ""; 
     currentViewMonth = pendingEntry.date.slice(0, 7);
     updateMonthSelector(); renderData(); closeConfirmModal();
     showToast(isEditing ? "डाटा अपडेट भयो! ✏️" : "डाटा सेभ भयो! ✅");
@@ -422,20 +432,13 @@ function editEntry(dateStr) {
     
     isEditing = true; editTargetDate = entry.date;
     let btn = document.getElementById("mainSaveBtn"); btn.innerHTML = "Update Entry ✏️"; btn.style.background = "#ff9800"; 
-    
-    // Switch to Home tab automatically
     document.querySelectorAll('.nav-item')[0].click();
     showToast("तपाईं सम्पादन (Edit) गर्दै हुनुहुन्छ ✏️");
 }
 
-function toggleNoteRow(id) {
-    let row = document.getElementById(id);
-    if(row) row.classList.toggle('show');
-}
-
 function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
     let body = document.getElementById(targetTbodyId); body.innerHTML = "";
-    if(dataList.length === 0) { body.innerHTML = "<tr><td colspan='5' style='color:#999;'>No records found</td></tr>"; return; }
+    if(dataList.length === 0) { body.innerHTML = "<tr><td colspan='6' style='color:#999;'>No records found</td></tr>"; return; }
     
     let todayStr = new Date().toISOString().split('T')[0];
 
@@ -445,7 +448,7 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
             let d = new Date(e.date);
             tr.className = "missing-row";
             tr.innerHTML = `<td class="col-date"><span class="date-big">${e.date.split('-')[2]}</span><span class="month-small">${months[d.getMonth()]}</span></td>
-                            <td class="col-day"><b>${daysArr[d.getDay()]}</b></td><td colspan="3" style="color:#d32f2f; font-size:11px;"><b>MISSING ❌</b></td>`;
+                            <td class="col-day"><b>${daysArr[d.getDay()]}</b></td><td colspan="4" style="color:#d32f2f; font-size:11px;"><b>MISSING ❌</b></td>`;
         } else {
             let d = new Date(e.date);
             if(e.type !== "weekday" && e.type !== "personal_leave") tr.className = "holiday-row";
@@ -453,43 +456,27 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
             let outTimeDisplay = (e.worked === "yes" && e.outVal) ? formatOutTime(e.outVal) : "-";
             let dot = (e.date === todayStr) ? `<div class="dot"></div>` : '';
             let totalOt = (e.normalOt + e.nightOt).toFixed(1);
-            
-            // Note button logic
-            let noteBtnHtml = "";
-            let uniqueId = `note-${targetTbodyId}-${idx}`;
-            if(e.note && e.note.trim() !== "") {
-                noteBtnHtml = `<button class="note-btn" onclick="toggleNoteRow('${uniqueId}')">🔽</button>`;
-            }
+            let displayNote = (e.note && e.note.trim() !== "") ? e.note : "-";
 
             tr.innerHTML = `<td class="col-date td-rel">${dot}<span class="date-big">${e.date.split('-')[2]}</span><span class="month-small">${months[d.getMonth()]}</span></td>
                             <td class="col-day"><b>${typeLabel}</b></td>
                             <td class="col-hrs">${e.basicHrs}</td>
                             <td class="col-ot"><b>${totalOt}</b></td>
-                            <td class="col-out">${outTimeDisplay}${noteBtnHtml}</td>`;
+                            <td class="col-out">${outTimeDisplay}</td>
+                            <td class="col-note">${displayNote}</td>`;
 
-            // Swipe/Hold logic only for actual rows
             let startX=0, startY=0, holdTimer;
             tr.addEventListener('touchstart', ev=>{ startX=ev.touches[0].clientX; startY=ev.touches[0].clientY; tr.style.transition='none'; holdTimer=setTimeout(()=>{ editEntry(e.date); if(navigator.vibrate) navigator.vibrate(50);}, 600);});
             tr.addEventListener('touchmove', ev=>{ let dx=ev.touches[0].clientX-startX, dy=Math.abs(ev.touches[0].clientY-startY); if(dx>5||dy>5) clearTimeout(holdTimer); if(dx>0 && dx>dy){ if(ev.cancelable) ev.preventDefault(); tr.style.transform=`translateX(${dx}px)`; tr.style.opacity=1-(dx/250);} }, {passive:false});
             tr.addEventListener('touchend', ev=>{ clearTimeout(holdTimer); let dx=ev.touches[0].clientX-startX; tr.style.transition='transform 0.3s, opacity 0.3s'; if(dx>100){ tr.style.transform='translateX(100%)'; tr.style.opacity=0; setTimeout(()=>delEntry(e.date), 300); } else { tr.style.transform='translateX(0)'; tr.style.opacity=1; }});
         }
         body.appendChild(tr);
-
-        // Add hidden note row if exists
-        if(!e.isMissing && e.note && e.note.trim() !== "") {
-            let noteTr = document.createElement("tr");
-            noteTr.id = `note-${targetTbodyId}-${idx}`;
-            noteTr.className = "note-row";
-            noteTr.innerHTML = `<td colspan="5" class="note-row-content">📝 ${e.note}</td>`;
-            body.appendChild(noteTr);
-        }
     });
 }
 
 function renderData() {
     let filtered = entries.filter(e => e.date.startsWith(currentViewMonth));
     
-    // Calculate Summary Stats
     let wD=0, pLD=0, sD=0, suD=0, hD=0, nOT=0, niOT=0;
     filtered.forEach(e => {
         if(e.type==="weekday") { wD++; nOT+=e.normalOt; } 
@@ -508,7 +495,6 @@ function renderData() {
     document.getElementById("hNormalOT").innerText = `${nOT.toFixed(1)} h`;
     document.getElementById("hNightOT").innerText = `${niOT.toFixed(1)} h`;
 
-    // 1. Render Full History (With missing days logic)
     let fullList = [];
     for(let i=0; i<filtered.length; i++) {
         fullList.push(filtered[i]);
@@ -525,8 +511,7 @@ function renderData() {
     }
     generateTableRows(fullList, "fullHistoryBody", true);
 
-    // 2. Render Recent History (Only actual entries, last 3)
-    let recentList = filtered.slice(-3).reverse(); // Most recent first
+    let recentList = filtered.slice(-3).reverse(); 
     generateTableRows(recentList, "recentHistoryBody", false);
 
     calculateSalary(true);
@@ -559,7 +544,6 @@ function resetAll(){ if(confirm("सबै डाटा डिलिट हु�
 
 function downloadAsPhoto() {
     calculateSalary();
-    // Temporarily apply class to force layout for screenshot
     document.body.classList.add('export-mode');
     const area = document.getElementById('exportArea');
     
@@ -569,9 +553,9 @@ function downloadAsPhoto() {
             link.download = `Ronnie_Report_${currentViewMonth}.png`;
             link.href = canvas.toDataURL();
             link.click();
-            document.body.classList.remove('export-mode'); // Restore tabs
+            document.body.classList.remove('export-mode'); 
         });
-    }, 100);
+    }, 300);
 }
 
 function checkToday() {
@@ -579,7 +563,6 @@ function checkToday() {
     if(!entries.find(e => e.date === today)) { document.getElementById("modalDate").innerText = today; document.getElementById("alertModal").classList.add("active"); }
 }
 
-// Initialize
 document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
 autoDetectDay(); updateMonthSelector(); renderData();
 setTimeout(checkToday, 1000);
