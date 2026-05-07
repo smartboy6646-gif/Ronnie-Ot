@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#2962ff">
 <link rel="apple-touch-icon" href="logos.PNG">
-<title>Ronnie Payroll Pro v8.6</title>
+<title>Ronnie Payroll Pro v8.7</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* Base Variables */
@@ -50,9 +50,7 @@ select, input[type="date"], input[type="number"], input[type="text"] {
     width: 100%; height: 48px; padding: 0 12px; font-size: 15px; border-radius: 12px; 
     border: 1.5px solid var(--border-color); margin-bottom: 12px; box-sizing: border-box; 
     background-color: var(--input-bg); outline: none; color: var(--text); display: block;
-    text-align: left; 
-    -webkit-appearance: none;
-    appearance: none;
+    text-align: left; -webkit-appearance: none; appearance: none;
 }
 input[type="date"]::-webkit-date-and-time-value { text-align: left; } 
 
@@ -68,12 +66,8 @@ table { width:100%; border-collapse:collapse; font-size:12px; table-layout: fixe
 th { color:#78909c; padding-bottom:10px; text-align: center; border-bottom: 2px solid var(--border-color); font-size: 11px; font-weight: 600; }
 td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:center; vertical-align: middle; word-wrap: break-word; }
 
-/* Column Widths */
-.col-date { width: 16%; } 
-.col-day { width: 15%; } 
-.col-hrs { width: 10%; } 
-.col-ot { width: 12%; } 
-.col-out { width: 25%; }
+.col-date { width: 16%; } .col-day { width: 15%; } .col-hrs { width: 10%; } 
+.col-ot { width: 12%; } .col-out { width: 25%; }
 .col-note { width: 22%; font-size: 11px; color: #555; line-height: 1.3; text-align: left; padding-left: 6px; padding-right: 4px; }
 
 .date-big { font-size: 16px; font-weight: 900; color: var(--text); display: block; line-height: 1.1; }
@@ -82,7 +76,6 @@ td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:
 .holiday-row .date-big, .holiday-row .month-small, .holiday-row .col-note { color: white !important; }
 .missing-row { background-color: #fff3e0 !important; color: #e65100 !important; border-left: 4px solid #ff9800; }
 
-/* SWIPE TO DELETE ACTIVE CLASS */
 .delete-ready { background-color: #ffebee !important; }
 body.theme-dark .delete-ready { background-color: #4a0000 !important; }
 .delete-ready td { color: #d32f2f !important; border-color: #ffcdd2 !important; opacity: 0.8; }
@@ -99,33 +92,24 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
 
 /* Utility & Modals */
 .hint-text { text-align: center; font-size: 11px; color: #888; margin-top: -5px; margin-bottom: 10px; font-weight: bold; }
-.hide { display:none; }
+.hide { display:none !important; }
 .flex-between { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 
 .report-card { background: #0a192f; color: #fff; padding: 20px; border-radius: 16px; }
 .report-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; color: var(--green); border-bottom: 1px solid #1e2d4d; padding-bottom: 8px; display: flex; justify-content: space-between; }
 .report-line { display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; }
 .report-val { font-weight:bold; color: #fff; }
-.salary-box { background:#112240; padding:15px; border-radius:12px; margin-top:10px; text-align:center; }
-.total-amt { font-size:26px; color:var(--green); font-weight:bold; margin:5px 0; }
 .action-btn { width: 100%; height: 48px; border: none; border-radius: 8px; font-weight: bold; margin-bottom: 10px; cursor: pointer; color: white; }
 .btn-blue { background: var(--primary); } .btn-green { background: var(--green); } .btn-red { background: #d32f2f; }
 
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: opacity 0.3s; }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 3000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: opacity 0.3s; }
 .modal-overlay.active { visibility: visible; opacity: 1; }
 .modal-box { background: var(--card-bg); padding: 20px; border-radius: 16px; width: 85%; max-width: 320px; text-align: center; }
 .confirm-details { background: var(--input-bg); padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; margin-bottom: 15px; border: 1px solid var(--border-color); }
-#toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; font-weight: bold; }
+#toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 4000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; font-weight: bold; }
 #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
 @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
 @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-
-/* EXPORT MODE */
-body.export-mode { padding-bottom: 10px !important; }
-body.export-mode .tab-content { display: none !important; } 
-body.export-mode #tabHistory { display: block !important; margin-bottom: 15px; } 
-body.export-mode #tabSummary { display: block !important; } 
-body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .action-btn, body.export-mode .hint-text, body.export-mode .theme-selector, body.export-mode #inputFormCard { display: none !important; } 
 </style>
 </head>
 <body>
@@ -138,7 +122,7 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
     </select>
 </div>
 
-<div class="container" id="exportArea">
+<div class="container" id="mainAppArea">
     <div class="header-area">
         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="app-logo">
         <h2>Ronnie Ruchal</h2>
@@ -226,21 +210,56 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
         </div>
 
         <div class="card">
-            <label>Hourly Rate (₩)</label>
-            <input type="number" id="hourlyRate" value="0">
-            <button class="action-btn btn-blue" onclick="calculateSalary()">Calculate Salary ₩</button>
-            
-            <div id="moneyView" class="hide" style="background:#f0f4f8; padding:12px; border-radius:12px; margin-bottom:15px; border:1px solid #ccc;">
-                <h4 style="margin:0 0 10px 0; color:#333; text-align:center;">Estimated Salary</h4>
-                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px; color:#555;"><span>Basic Pay:</span><span id="calcBasic" style="font-weight:bold;">₩ 0</span></div>
-                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px; color:#555;"><span>OT Pay (1.5x):</span><span id="calcOT" style="font-weight:bold;">₩ 0</span></div>
-                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px; color:#555;"><span>Night Pay (3x):</span><span id="calcNight" style="font-weight:bold;">₩ 0</span></div>
-                <div style="text-align:center; font-size:22px; font-weight:bold; color:var(--green); margin-top:10px; border-top:1px solid #ddd; padding-top:10px;">Total: ₩ <span id="finalSalary">0</span></div>
-            </div>
-
-            <button class="action-btn btn-green" onclick="downloadAsPhoto()">Download Report 📸</button>
-            <button class="action-btn btn-red" onclick="resetAll()">Reset App Data</button>
+            <button class="action-btn btn-blue" onclick="openReportPage()" style="height: 60px; font-size: 16px;">View & Share Report 📄</button>
+            <div style="height: 10px;"></div>
+            <button class="action-btn btn-red" onclick="resetAll()">Reset App Data 🗑️</button>
         </div>
+    </div>
+</div>
+
+<div id="reportPage" class="hide" style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:2000; overflow-y:auto; padding-bottom:50px;">
+    
+    <div id="captureArea" style="padding:15px; background:var(--bg); max-width:420px; margin:auto;">
+        <div class="header-area" style="margin-bottom:10px;">
+            <h2 style="margin:0; font-size: 22px;">Ronnie Payroll Report</h2>
+            <h4 id="repMonthTitle" style="margin:5px 0; color:#666;"></h4>
+        </div>
+
+        <div class="report-card" style="margin-bottom: 15px; padding:15px;">
+            <div class="report-title">Monthly Summary</div>
+            <div class="report-line"><span>📅 Weekday (Mon-Fri):</span><span class="report-val" id="rWBasic">0 d</span></div>
+            <div class="report-line"><span>🏖️ Personal Leave:</span><span class="report-val" id="rLeave">0 d</span></div>
+            <div class="report-line"><span>🗓️ Saturday Days:</span><span class="report-val" id="rSat">0 d</span></div>
+            <div class="report-line"><span>☀️ Sunday Days:</span><span class="report-val" id="rSun">0 d</span></div>
+            <div class="report-line"><span>🎈 Public Holiday:</span><span class="report-val" id="rHol">0 d</span></div>
+            <div class="report-line" style="border-top:1px solid #1e2d4d; padding-top:8px; margin-top:8px;"><span>⚙️ Normal OT:</span><span class="report-val" id="rNormalOT">0.0 h</span></div>
+            <div class="report-line"><span>🌙 Night OT (Total):</span><span class="report-val" id="rNightOT">0.0 h</span></div>
+        </div>
+        
+        <div id="repSalaryBox" class="hide" style="background:#e8f5e9; padding:12px; border-radius:12px; margin-bottom:15px; border:1px solid #a5d6a7; color:#2e7d32;">
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>Basic Pay:</span><span id="rCalcBasic" style="font-weight:bold;">₩ 0</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>OT Pay (1.5x):</span><span id="rCalcOT" style="font-weight:bold;">₩ 0</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>Night Pay (3.0x):</span><span id="rCalcNight" style="font-weight:bold;">₩ 0</span></div>
+            <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:8px; border-top:1px solid #a5d6a7; padding-top:8px;">Total: ₩ <span id="rFinalSalary">0</span></div>
+        </div>
+
+        <div style="background:var(--card-bg); border-radius:12px; overflow:hidden; border:1px solid var(--border-color);">
+            <table style="margin-bottom: 0;">
+                <thead style="background:var(--border-color);">
+                    <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out</th><th class="col-note">Note</th></tr>
+                </thead>
+                <tbody id="repHistoryBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="reportControls" style="padding:15px; max-width:420px; margin:auto; background:var(--card-bg); border-top:2px solid var(--border-color); margin-top:15px; border-radius:16px;">
+        <label>Hourly Rate (₩)</label>
+        <input type="number" id="repHourlyRate" value="0" style="margin-bottom: 10px;">
+        <button class="action-btn btn-blue" onclick="calcReportSalary()">Calculate Salary ₩</button>
+        <div style="height: 10px;"></div>
+        <button class="action-btn btn-green" onclick="generateReportPhoto()">📷 Take Photo / Share</button>
+        <button class="action-btn btn-red" onclick="closeReportPage()">⬅️ Back to App</button>
     </div>
 </div>
 
@@ -253,16 +272,17 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
     </div>
 </div>
 
-<div id="alertModal" class="modal-overlay">
-    <div class="modal-box">
-        <h2 style="margin:0 0 10px 0;">⚠️</h2>
-        <h3 style="margin:0 0 10px 0; color:var(--primary);">Attention Ronnie!</h3>
-        <p style="font-size:14px; color:#666;">आजको मिति (<span id="modalDate"></span>) को इन्ट्री भएको छैन।</p>
-        <button class="action-btn btn-blue" onclick="document.getElementById('alertModal').classList.remove('active')">OK</button>
+<div id="photoModal" class="modal-overlay">
+    <div style="background: var(--card-bg); padding: 15px; border-radius: 12px; width: 90%; max-height: 90vh; overflow-y: auto; text-align: center;">
+        <h3 style="color:var(--primary); margin-top:0;">✅ Photo Ready!</h3>
+        <p style="font-size:13px; color:#666;">👇 <b>फोटोमा थिचेर राख्नुहोस् (Long Press)</b> र 'Save Image' वा 'Share' छान्नुहोस्। 👇</p>
+        <img id="resultImage" style="width:100%; border:2px dashed #ccc; border-radius:8px; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+        <button class="action-btn btn-blue" onclick="shareNativeImage()">📤 Share (Native)</button>
+        <button class="action-btn btn-red" onclick="document.getElementById('photoModal').classList.remove('active')">Close ❌</button>
     </div>
 </div>
 
-<nav class="bottom-nav">
+<nav class="bottom-nav" id="mainBottomNav">
     <button class="nav-item active" onclick="switchTab('tabHome', this)">
         <span class="nav-icon">🏠</span><span>Home</span>
     </button>
@@ -282,6 +302,7 @@ let is24HourFormat = false;
 let isEditing = false;
 let editTargetDate = null;
 let currentViewMonth = new Date().toISOString().slice(0, 7);
+let savedHourlyRate = localStorage.getItem("ronnie_hourly_rate") || 0;
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const daysArr = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -457,7 +478,9 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
             if(e.type !== "weekday" && e.type !== "personal_leave") tr.className = "holiday-row";
             let typeLabel = e.type === "personal_leave" ? "LV" : daysArr[d.getDay()];
             let outTimeDisplay = (e.worked === "yes" && e.outVal) ? formatOutTime(e.outVal) : "-";
-            let dot = (e.date === todayStr) ? `<div class="dot"></div>` : '';
+            
+            // Do not show today's dot if rendering for report
+            let dot = (e.date === todayStr && targetTbodyId !== "repHistoryBody") ? `<div class="dot"></div>` : '';
             let totalOt = (e.normalOt + e.nightOt).toFixed(1);
             let displayNote = (e.note && e.note.trim() !== "") ? e.note : "-";
 
@@ -468,64 +491,32 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
                             <td class="col-out">${outTimeDisplay}</td>
                             <td class="col-note">${displayNote}</td>`;
 
-            // Improved Swipe and Hold logic
-            let startX=0, startY=0, currentX=0, holdTimer;
-            
-            tr.addEventListener('touchstart', ev => { 
-                startX = ev.touches[0].clientX; 
-                startY = ev.touches[0].clientY; 
-                currentX = 0;
-                tr.style.transition = 'none'; 
-                holdTimer = setTimeout(() => { 
-                    editEntry(e.date); 
-                    if(navigator.vibrate) navigator.vibrate(50);
-                }, 600);
-            });
-
-            tr.addEventListener('touchmove', ev => { 
-                let dx = ev.touches[0].clientX - startX;
-                let dy = Math.abs(ev.touches[0].clientY - startY); 
-                
-                // If scrolling vertically or slightly, cancel hold to edit
-                if(dx > 5 || dy > 5) clearTimeout(holdTimer); 
-                
-                // If swiping right
-                if(dx > 0 && dx > dy) { 
-                    if(ev.cancelable) ev.preventDefault(); 
-                    currentX = dx;
-                    tr.style.transform = `translateX(${dx}px)`; 
-                    
-                    // Show red color if swiped more than 45% of screen
-                    if (dx > window.innerWidth * 0.45) {
-                        tr.classList.add('delete-ready');
-                    } else {
-                        tr.classList.remove('delete-ready');
-                    }
-                } 
-            }, {passive:false});
-
-            tr.addEventListener('touchend', ev => { 
-                clearTimeout(holdTimer); 
-                tr.style.transition = 'transform 0.3s, opacity 0.3s'; 
-                
-                // Trigger Delete
-                if (currentX > window.innerWidth * 0.45) { 
-                    tr.style.transform = 'translateX(100%)'; 
-                    tr.style.opacity = 0; 
-                    setTimeout(() => {
-                        // Delete logic: Removes from array and refreshes tables
-                        entries = entries.filter(item => item.date !== e.date);
-                        localStorage.setItem(STORE_KEY, JSON.stringify(entries));
-                        updateMonthSelector();
-                        renderData(); // Refreshes both History and Recent (Last 3)
-                        showToast("डाटा डिलिट भयो! 🗑️");
-                    }, 300); 
-                } else { 
-                    // Snap back
-                    tr.style.transform = 'translateX(0)'; 
-                    tr.classList.remove('delete-ready');
-                }
-            });
+            // Swipe logic ONLY for main history, not report page
+            if (targetTbodyId === "fullHistoryBody") {
+                let startX=0, startY=0, currentX=0, holdTimer;
+                tr.addEventListener('touchstart', ev => { 
+                    startX = ev.touches[0].clientX; startY = ev.touches[0].clientY; currentX = 0; tr.style.transition = 'none'; 
+                    holdTimer = setTimeout(() => { editEntry(e.date); if(navigator.vibrate) navigator.vibrate(50);}, 600);
+                });
+                tr.addEventListener('touchmove', ev => { 
+                    let dx = ev.touches[0].clientX - startX, dy = Math.abs(ev.touches[0].clientY - startY); 
+                    if(dx > 5 || dy > 5) clearTimeout(holdTimer); 
+                    if(dx > 0 && dx > dy) { 
+                        if(ev.cancelable) ev.preventDefault(); currentX = dx; tr.style.transform = `translateX(${dx}px)`; 
+                        if (dx > window.innerWidth * 0.45) tr.classList.add('delete-ready'); else tr.classList.remove('delete-ready');
+                    } 
+                }, {passive:false});
+                tr.addEventListener('touchend', ev => { 
+                    clearTimeout(holdTimer); tr.style.transition = 'transform 0.3s, opacity 0.3s'; 
+                    if (currentX > window.innerWidth * 0.45) { 
+                        tr.style.transform = 'translateX(100%)'; tr.style.opacity = 0; 
+                        setTimeout(() => {
+                            entries = entries.filter(item => item.date !== e.date); localStorage.setItem(STORE_KEY, JSON.stringify(entries));
+                            updateMonthSelector(); renderData(); showToast("डाटा डिलिट भयो! 🗑️");
+                        }, 300); 
+                    } else { tr.style.transform = 'translateX(0)'; tr.classList.remove('delete-ready'); }
+                });
+            }
         }
         body.appendChild(tr);
     });
@@ -567,15 +558,68 @@ function renderData() {
         }
     }
     generateTableRows(fullList, "fullHistoryBody", true);
-
     let recentList = filtered.slice(-3).reverse(); 
     generateTableRows(recentList, "recentHistoryBody", false);
-
-    calculateSalary(true);
 }
 
-function calculateSalary(silent = false) {
-    let rate = parseFloat(document.getElementById("hourlyRate").value) || 0;
+function resetAll(){ if(confirm("सबै डाटा डिलिट हुनेछ! पक्का हुनुहुन्छ?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); updateMonthSelector(); renderData(); } }
+
+// ================= NEW REPORT PAGE LOGIC =================
+
+function openReportPage() {
+    window.scrollTo(0, 0);
+    // Hide main UI
+    document.getElementById("mainAppArea").classList.add("hide");
+    document.getElementById("mainBottomNav").classList.add("hide");
+    // Show Report Page
+    document.getElementById("reportPage").classList.remove("hide");
+
+    // Set Title
+    document.getElementById("repMonthTitle").innerText = document.getElementById("summaryMonthLabel").innerText;
+
+    // Copy Summary Stats
+    document.getElementById("rWBasic").innerText = document.getElementById("hWBasic").innerText;
+    document.getElementById("rLeave").innerText = document.getElementById("hLeave").innerText;
+    document.getElementById("rSat").innerText = document.getElementById("hSat").innerText;
+    document.getElementById("rSun").innerText = document.getElementById("hSun").innerText;
+    document.getElementById("rHol").innerText = document.getElementById("hHol").innerText;
+    document.getElementById("rNormalOT").innerText = document.getElementById("hNormalOT").innerText;
+    document.getElementById("rNightOT").innerText = document.getElementById("hNightOT").innerText;
+
+    // Copy Table Data
+    let filtered = entries.filter(e => e.date.startsWith(currentViewMonth));
+    let fullList = [];
+    for(let i=0; i<filtered.length; i++) {
+        fullList.push(filtered[i]);
+        if(i < filtered.length - 1) {
+            let curr = new Date(filtered[i].date), next = new Date(filtered[i+1].date);
+            let diffDays = Math.ceil((next - curr) / (1000 * 3600 * 24));
+            if(diffDays > 1) {
+                for(let j=1; j<diffDays; j++) {
+                    let md = new Date(curr); md.setDate(curr.getDate() + j);
+                    fullList.push({ date: md.toISOString().split('T')[0], isMissing: true });
+                }
+            }
+        }
+    }
+    generateTableRows(fullList, "repHistoryBody", true);
+
+    // Reset Salary view & Load saved rate
+    document.getElementById("repSalaryBox").classList.add("hide");
+    document.getElementById("repHourlyRate").value = savedHourlyRate;
+}
+
+function closeReportPage() {
+    document.getElementById("reportPage").classList.add("hide");
+    document.getElementById("mainAppArea").classList.remove("hide");
+    document.getElementById("mainBottomNav").classList.remove("hide");
+}
+
+function calcReportSalary() {
+    let rate = parseFloat(document.getElementById("repHourlyRate").value) || 0;
+    savedHourlyRate = rate;
+    localStorage.setItem("ronnie_hourly_rate", rate); // Remember it
+
     let bP=0, wOT=0, nP=0;
     entries.filter(e => e.date.startsWith(currentViewMonth)).forEach(e => {
         bP += (e.basicHrs * rate);
@@ -583,64 +627,56 @@ function calculateSalary(silent = false) {
         nP += (e.nightOt * rate * 3.0); 
     });
 
-    if(!silent) {
-        document.getElementById("moneyView").classList.remove("hide");
-        document.getElementById("calcBasic").innerText = "₩ " + bP.toLocaleString();
-        document.getElementById("calcOT").innerText = "₩ " + wOT.toLocaleString();
-        document.getElementById("calcNight").innerText = "₩ " + nP.toLocaleString();
-        document.getElementById("finalSalary").innerText = Math.round(bP + wOT + nP).toLocaleString();
-    }
+    document.getElementById("repSalaryBox").classList.remove("hide");
+    document.getElementById("rCalcBasic").innerText = "₩ " + bP.toLocaleString();
+    document.getElementById("rCalcOT").innerText = "₩ " + wOT.toLocaleString();
+    document.getElementById("rCalcNight").innerText = "₩ " + nP.toLocaleString();
+    document.getElementById("rFinalSalary").innerText = Math.round(bP + wOT + nP).toLocaleString();
 }
 
-// Kept for fallback, but Swipe logic overrides this mostly.
-function delEntry(dateStr){ 
-    if(confirm(`तपाईं ${dateStr} को डाटा डिलिट गर्दै हुनुहुन्छ, पक्का हो?`)){ 
-        entries = entries.filter(e => e.date !== dateStr); localStorage.setItem(STORE_KEY, JSON.stringify(entries)); updateMonthSelector(); renderData(); 
-    } else renderData(); 
-}
-function resetAll(){ if(confirm("सबै डाटा डिलिट हुनेछ! पक्का हुनुहुन्छ?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); updateMonthSelector(); renderData(); document.getElementById("moneyView").classList.add("hide"); } }
-
-// iOS Fix for html2canvas Photo Download
-function downloadAsPhoto() {
-    calculateSalary();
-    
-    // Fix: iOS requires screen to be scrolled to top for correct capture
-    window.scrollTo(0, 0); 
-    
-    document.body.classList.add('export-mode');
-    const area = document.getElementById('exportArea');
-    
+// Generate the photo and display it for saving/sharing
+function generateReportPhoto() {
+    window.scrollTo(0, 0);
     showToast("प्रोसेसिङ हुँदैछ... ⏳");
     
-    // SetTimeout is increased to let the UI properly hide elements before capturing
     setTimeout(() => {
+        const area = document.getElementById('captureArea');
         html2canvas(area, { 
             scale: 2, 
-            backgroundColor: "var(--bg)", 
+            backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'), 
             useCORS: true 
         }).then(canvas => {
-            let link = document.createElement('a');
-            link.download = `Ronnie_Report_${currentViewMonth}.png`;
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-            document.body.classList.remove('export-mode'); 
-            showToast("फोटो सेभ भयो! 📸");
+            let imgData = canvas.toDataURL("image/png");
+            document.getElementById('resultImage').src = imgData;
+            document.getElementById('photoModal').classList.add('active');
         }).catch(err => {
-            console.log(err);
-            alert("फोटो सेभ गर्न समस्या भयो। फेरि प्रयास गर्नुहोस्।");
-            document.body.classList.remove('export-mode'); 
+            alert("फोटो निकाल्न समस्या भयो।");
         });
-    }, 500); 
+    }, 500);
 }
 
-function checkToday() {
-    let today = new Date().toISOString().split('T')[0];
-    if(!entries.find(e => e.date === today)) { document.getElementById("modalDate").innerText = today; document.getElementById("alertModal").classList.add("active"); }
+// Native Web Share API
+async function shareNativeImage() {
+    let imgUrl = document.getElementById('resultImage').src;
+    try {
+        let blob = await (await fetch(imgUrl)).blob();
+        let file = new File([blob], `Ronnie_Report_${currentViewMonth}.png`, { type: blob.type });
+        if (navigator.share) {
+            await navigator.share({
+                title: 'Ronnie Payroll Report',
+                files: [file]
+            });
+        } else {
+            alert("Share feature is not supported on this browser. Please long-press the image to save it.");
+        }
+    } catch(e) {
+        alert("Please long-press the image above to save it.");
+    }
 }
+// =========================================================
 
 document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
 autoDetectDay(); updateMonthSelector(); renderData();
-setTimeout(checkToday, 1000);
 </script>
 </body>
 </html>
