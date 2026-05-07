@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#2962ff">
 <link rel="apple-touch-icon" href="logos.PNG">
-<title>Ronnie Payroll Pro v8.5</title>
+<title>Ronnie Payroll Pro v8.6</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* Base Variables */
@@ -63,12 +63,12 @@ input[type="date"]::-webkit-date-and-time-value { text-align: left; }
 .tab-content.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Table Adjustments - Fill the gap and increase font sizes */
+/* Table Adjustments */
 table { width:100%; border-collapse:collapse; font-size:12px; table-layout: fixed; }
 th { color:#78909c; padding-bottom:10px; text-align: center; border-bottom: 2px solid var(--border-color); font-size: 11px; font-weight: 600; }
 td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:center; vertical-align: middle; word-wrap: break-word; }
 
-/* Adjusted column widths to balance everything */
+/* Column Widths */
 .col-date { width: 16%; } 
 .col-day { width: 15%; } 
 .col-hrs { width: 10%; } 
@@ -81,6 +81,12 @@ td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:
 .holiday-row { background-color: var(--red-highlight) !important; color: white !important; }
 .holiday-row .date-big, .holiday-row .month-small, .holiday-row .col-note { color: white !important; }
 .missing-row { background-color: #fff3e0 !important; color: #e65100 !important; border-left: 4px solid #ff9800; }
+
+/* SWIPE TO DELETE ACTIVE CLASS */
+.delete-ready { background-color: #ffebee !important; }
+body.theme-dark .delete-ready { background-color: #4a0000 !important; }
+.delete-ready td { color: #d32f2f !important; border-color: #ffcdd2 !important; opacity: 0.8; }
+body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71c1c !important; }
 
 .td-rel { position: relative; padding-left: 10px; }
 .dot { width: 8px; height: 8px; background-color: #4caf50; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%); border: 1px solid white; }
@@ -109,7 +115,7 @@ td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:
 .modal-overlay.active { visibility: visible; opacity: 1; }
 .modal-box { background: var(--card-bg); padding: 20px; border-radius: 16px; width: 85%; max-width: 320px; text-align: center; }
 .confirm-details { background: var(--input-bg); padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; margin-bottom: 15px; border: 1px solid var(--border-color); }
-#toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; }
+#toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; font-weight: bold; }
 #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
 @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
 @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
@@ -140,7 +146,6 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
     
     <div id="toast">डाटा सेभ भयो! ✅</div>
 
-    <!-- TAB 1: HOME -->
     <div id="tabHome" class="tab-content active">
         <div class="card" id="inputFormCard">
             <label>Select Date</label>
@@ -185,7 +190,6 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
         </div>
     </div>
 
-    <!-- TAB 2: HISTORY -->
     <div id="tabHistory" class="tab-content">
         <div class="card" style="padding-bottom: 5px;">
             <div class="flex-between" style="background: #e3f2fd; padding: 8px; border-radius: 8px;" id="monthSelectorBox">
@@ -206,7 +210,6 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
         </div>
     </div>
 
-    <!-- TAB 3: SUMMARY -->
     <div id="tabSummary" class="tab-content">
         <div class="report-card" style="margin-bottom: 15px;">
             <div class="report-title">
@@ -241,7 +244,6 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
     </div>
 </div>
 
-<!-- Modals -->
 <div id="confirmModal" class="modal-overlay">
     <div class="modal-box">
         <h3 style="margin-top:0; color:var(--primary);">Confirm Entry</h3>
@@ -260,7 +262,6 @@ body.export-mode .bottom-nav, body.export-mode .top-nav, body.export-mode .actio
     </div>
 </div>
 
-<!-- Bottom Navigation Bar -->
 <nav class="bottom-nav">
     <button class="nav-item active" onclick="switchTab('tabHome', this)">
         <span class="nav-icon">🏠</span><span>Home</span>
@@ -318,7 +319,9 @@ function formatOutTime(timeStr) {
 }
 
 function showToast(msg) {
-    let x = document.getElementById("toast"); x.innerText = msg; x.className = "show";
+    let x = document.getElementById("toast"); 
+    x.innerText = msg; 
+    x.className = "show";
     setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
 }
 
@@ -442,7 +445,7 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
     
     let todayStr = new Date().toISOString().split('T')[0];
 
-    dataList.forEach((e, idx) => {
+    dataList.forEach((e) => {
         let tr = document.createElement("tr");
         if (e.isMissing) {
             let d = new Date(e.date);
@@ -465,10 +468,64 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
                             <td class="col-out">${outTimeDisplay}</td>
                             <td class="col-note">${displayNote}</td>`;
 
-            let startX=0, startY=0, holdTimer;
-            tr.addEventListener('touchstart', ev=>{ startX=ev.touches[0].clientX; startY=ev.touches[0].clientY; tr.style.transition='none'; holdTimer=setTimeout(()=>{ editEntry(e.date); if(navigator.vibrate) navigator.vibrate(50);}, 600);});
-            tr.addEventListener('touchmove', ev=>{ let dx=ev.touches[0].clientX-startX, dy=Math.abs(ev.touches[0].clientY-startY); if(dx>5||dy>5) clearTimeout(holdTimer); if(dx>0 && dx>dy){ if(ev.cancelable) ev.preventDefault(); tr.style.transform=`translateX(${dx}px)`; tr.style.opacity=1-(dx/250);} }, {passive:false});
-            tr.addEventListener('touchend', ev=>{ clearTimeout(holdTimer); let dx=ev.touches[0].clientX-startX; tr.style.transition='transform 0.3s, opacity 0.3s'; if(dx>100){ tr.style.transform='translateX(100%)'; tr.style.opacity=0; setTimeout(()=>delEntry(e.date), 300); } else { tr.style.transform='translateX(0)'; tr.style.opacity=1; }});
+            // Improved Swipe and Hold logic
+            let startX=0, startY=0, currentX=0, holdTimer;
+            
+            tr.addEventListener('touchstart', ev => { 
+                startX = ev.touches[0].clientX; 
+                startY = ev.touches[0].clientY; 
+                currentX = 0;
+                tr.style.transition = 'none'; 
+                holdTimer = setTimeout(() => { 
+                    editEntry(e.date); 
+                    if(navigator.vibrate) navigator.vibrate(50);
+                }, 600);
+            });
+
+            tr.addEventListener('touchmove', ev => { 
+                let dx = ev.touches[0].clientX - startX;
+                let dy = Math.abs(ev.touches[0].clientY - startY); 
+                
+                // If scrolling vertically or slightly, cancel hold to edit
+                if(dx > 5 || dy > 5) clearTimeout(holdTimer); 
+                
+                // If swiping right
+                if(dx > 0 && dx > dy) { 
+                    if(ev.cancelable) ev.preventDefault(); 
+                    currentX = dx;
+                    tr.style.transform = `translateX(${dx}px)`; 
+                    
+                    // Show red color if swiped more than 45% of screen
+                    if (dx > window.innerWidth * 0.45) {
+                        tr.classList.add('delete-ready');
+                    } else {
+                        tr.classList.remove('delete-ready');
+                    }
+                } 
+            }, {passive:false});
+
+            tr.addEventListener('touchend', ev => { 
+                clearTimeout(holdTimer); 
+                tr.style.transition = 'transform 0.3s, opacity 0.3s'; 
+                
+                // Trigger Delete
+                if (currentX > window.innerWidth * 0.45) { 
+                    tr.style.transform = 'translateX(100%)'; 
+                    tr.style.opacity = 0; 
+                    setTimeout(() => {
+                        // Delete logic: Removes from array and refreshes tables
+                        entries = entries.filter(item => item.date !== e.date);
+                        localStorage.setItem(STORE_KEY, JSON.stringify(entries));
+                        updateMonthSelector();
+                        renderData(); // Refreshes both History and Recent (Last 3)
+                        showToast("डाटा डिलिट भयो! 🗑️");
+                    }, 300); 
+                } else { 
+                    // Snap back
+                    tr.style.transform = 'translateX(0)'; 
+                    tr.classList.remove('delete-ready');
+                }
+            });
         }
         body.appendChild(tr);
     });
@@ -535,6 +592,7 @@ function calculateSalary(silent = false) {
     }
 }
 
+// Kept for fallback, but Swipe logic overrides this mostly.
 function delEntry(dateStr){ 
     if(confirm(`तपाईं ${dateStr} को डाटा डिलिट गर्दै हुनुहुन्छ, पक्का हो?`)){ 
         entries = entries.filter(e => e.date !== dateStr); localStorage.setItem(STORE_KEY, JSON.stringify(entries)); updateMonthSelector(); renderData(); 
@@ -542,20 +600,37 @@ function delEntry(dateStr){
 }
 function resetAll(){ if(confirm("सबै डाटा डिलिट हुनेछ! पक्का हुनुहुन्छ?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); updateMonthSelector(); renderData(); document.getElementById("moneyView").classList.add("hide"); } }
 
+// iOS Fix for html2canvas Photo Download
 function downloadAsPhoto() {
     calculateSalary();
+    
+    // Fix: iOS requires screen to be scrolled to top for correct capture
+    window.scrollTo(0, 0); 
+    
     document.body.classList.add('export-mode');
     const area = document.getElementById('exportArea');
     
+    showToast("प्रोसेसिङ हुँदैछ... ⏳");
+    
+    // SetTimeout is increased to let the UI properly hide elements before capturing
     setTimeout(() => {
-        html2canvas(area, { scale: 2, backgroundColor: "var(--bg)" }).then(canvas => {
+        html2canvas(area, { 
+            scale: 2, 
+            backgroundColor: "var(--bg)", 
+            useCORS: true 
+        }).then(canvas => {
             let link = document.createElement('a');
             link.download = `Ronnie_Report_${currentViewMonth}.png`;
-            link.href = canvas.toDataURL();
+            link.href = canvas.toDataURL("image/png");
             link.click();
             document.body.classList.remove('export-mode'); 
+            showToast("फोटो सेभ भयो! 📸");
+        }).catch(err => {
+            console.log(err);
+            alert("फोटो सेभ गर्न समस्या भयो। फेरि प्रयास गर्नुहोस्।");
+            document.body.classList.remove('export-mode'); 
         });
-    }, 300);
+    }, 500); 
 }
 
 function checkToday() {
