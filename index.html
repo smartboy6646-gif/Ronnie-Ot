@@ -6,68 +6,75 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#2962ff">
-<link rel="apple-touch-icon" href="logos.PNG">
-<title>Ronnie Payroll Pro v8.7</title>
+<!-- Web App Manifest for Android -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Standard Favicon -->
+<link rel="icon" type="image/png" sizes="192x192" href="logos.PNG">
+
+<!-- Apple Touch Icon for iPhone/iPad -->
+<link rel="apple-touch-icon" sizes="180x180" href="logos.PNG">
+
+<title>Ronnie Payroll Pro v9.2</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* Base Variables */
 :root { 
     --primary: #2962ff; --bg: #f4f7f6; --card-bg: #ffffff; 
     --text: #333; --red-highlight: #d32f2f; --green: #4caf50; 
-    --border-color: #e2e8f0; --input-bg: #fcfcfc; --nav-bg: #ffffff;
+    --border-color: #cfd8dc; --input-bg: #fcfcfc; --nav-bg: #ffffff;
 }
 /* Dark Theme */
 body.theme-dark {
     --primary: #8c9eff; --bg: #121212; --card-bg: #1e1e1e;
-    --text: #e0e0e0; --border-color: #333333; --input-bg: #2c2c2c;
+    --text: #e0e0e0; --border-color: #424242; --input-bg: #2c2c2c;
     --red-highlight: #b71c1c; --nav-bg: #1e1e1e;
 }
 body.theme-dark .missing-row { background-color: #3e2723 !important; color: #ffab91 !important; border-left: 4px solid #ff5722; }
 body.theme-dark .date-big { color: #ffffff; }
 body.theme-dark .bottom-nav { border-top: 1px solid #333; }
-/* Emerald Theme */
-body.theme-emerald {
-    --primary: #00897b; --bg: #e0f2f1; --card-bg: #ffffff;
-    --text: #263238; --border-color: #b2dfdb; --input-bg: #f5fbfb;
-    --red-highlight: #e53935; --green: #43a047; --nav-bg: #ffffff;
-}
+body.theme-dark .slip-table th { background: #333; color:#fff; }
+body.theme-dark .slip-table td { background: #1e1e1e; color:#ddd; }
 
 body { margin:0; font-family:-apple-system,BlinkMacSystemFont,sans-serif; background:var(--bg); color:var(--text); -webkit-tap-highlight-color: transparent; transition: background 0.3s, color 0.3s; padding-bottom: 70px; }
 .container { max-width:420px; margin:auto; padding:12px; }
 
 /* Top Nav */
-.top-nav { display: flex; justify-content: flex-end; margin-bottom: -15px; position: relative; z-index: 10; }
-.theme-selector { background: var(--card-bg); border: 1.5px solid var(--primary); color: var(--text); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: bold; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.top-nav { display: flex; justify-content: flex-start; margin-bottom: 5px; position: relative; z-index: 10; padding: 5px 0; }
+.theme-selector { background: var(--card-bg); border: 1px solid var(--primary); color: var(--primary); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: bold; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+/* Header Profile */
 .header-area { text-align: center; margin-bottom: 15px; position: relative; }
-.app-logo { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--primary); padding: 2px; background: white; }
-h2 { text-align:center; color:var(--primary); margin: 5px 0 5px 0; }
+.app-logo { width: 70px; height: 70px; border-radius: 50%; border: 3px solid #8c9eff; padding: 3px; background: #e3f2fd; }
+h2 { text-align:center; color:var(--primary); margin: 8px 0 5px 0; font-size: 22px; font-weight: bold;}
 
 .card { background:var(--card-bg); padding:16px; border-radius:16px; margin-bottom:12px; box-shadow:0 8px 20px rgba(0,0,0,.05); position: relative; overflow: hidden; }
 label { font-size:11px; color:var(--primary); font-weight:bold; display:block; margin-bottom:4px; text-transform:uppercase; }
 
 /* Input field styling */
 select, input[type="date"], input[type="number"], input[type="text"] {
-    width: 100%; height: 48px; padding: 0 12px; font-size: 15px; border-radius: 12px; 
+    width: 100%; height: 48px; padding: 0 12px; font-size: 14px; border-radius: 12px; 
     border: 1.5px solid var(--border-color); margin-bottom: 12px; box-sizing: border-box; 
     background-color: var(--input-bg); outline: none; color: var(--text); display: block;
     text-align: left; -webkit-appearance: none; appearance: none;
 }
 input[type="date"]::-webkit-date-and-time-value { text-align: left; } 
 
-.btn-save { width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
+.btn-save { width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; }
 
 /* Tabs Layout */
 .tab-content { display: none; animation: fadeIn 0.3s ease; }
 .tab-content.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Table Adjustments */
-table { width:100%; border-collapse:collapse; font-size:12px; table-layout: fixed; }
-th { color:#78909c; padding-bottom:10px; text-align: center; border-bottom: 2px solid var(--border-color); font-size: 11px; font-weight: 600; }
-td { padding:12px 2px; border-bottom: 2px solid var(--border-color); text-align:center; vertical-align: middle; word-wrap: break-word; }
+/* Main History Table */
+.hist-table { width:100%; border-collapse:collapse; font-size:12px; table-layout: fixed; }
+.hist-table th { color:#78909c; padding-bottom:10px; text-align: center; border-bottom: 2px solid var(--border-color); font-size: 11px; font-weight: 600; line-height: 1.3;}
+.hist-table td { padding:12px 2px; border-bottom: 1px solid var(--border-color); text-align:center; vertical-align: middle; word-wrap: break-word; }
 
-.col-date { width: 16%; } .col-day { width: 15%; } .col-hrs { width: 10%; } 
-.col-ot { width: 12%; } .col-out { width: 25%; }
+.col-date { width: 16%; } .col-day { width: 15%; } .col-hrs { width: 12%; } 
+.col-ot { width: 12%; } .col-out { width: 23%; }
 .col-note { width: 22%; font-size: 11px; color: #555; line-height: 1.3; text-align: left; padding-left: 6px; padding-right: 4px; }
 
 .date-big { font-size: 16px; font-weight: 900; color: var(--text); display: block; line-height: 1.1; }
@@ -84,6 +91,27 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
 .td-rel { position: relative; padding-left: 10px; }
 .dot { width: 8px; height: 8px; background-color: #4caf50; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%); border: 1px solid white; }
 
+/* Dark Summary Card UI */
+.dark-summary-card { background-color: #0b192c; color: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 16px; }
+.dark-summary-card .title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.dark-summary-card .title-row h3 { color: #4caf50; margin: 0; font-size: 16px; }
+.dark-summary-card .title-row span { color: #78909c; font-size: 12px; font-weight: bold; }
+.dark-summary-card hr { border: none; border-top: 1px solid #1e2d40; margin: 12px 0; }
+.dark-summary-card .data-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #b0bec5; }
+.dark-summary-card .data-row span:last-child { font-weight: bold; color: #ffffff; }
+
+/* Authentic Slip Table Styling (For Report Only) */
+.slip-wrapper { overflow-x: auto; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.slip-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 12px; background: var(--card-bg); min-width: 380px; }
+.slip-table th, .slip-table td { border: 1px solid #78909c; padding: 8px 4px; vertical-align: middle; }
+.slip-table th { background: #e0e0e0; font-weight: 700; color: #333; font-size: 11px; }
+.slip-table td { font-weight: bold; color: var(--text); }
+.slip-table .hl-bg { background: #f5f5f5; }
+body.theme-dark .slip-table .hl-bg { background: #2c2c2c; }
+body.theme-dark .slip-table th { background: #424242; color: #fff; border-color:#555;}
+body.theme-dark .slip-table td { border-color:#555;}
+.slip-title { font-size:14px; font-weight:900; color:var(--primary); margin-bottom:8px; text-align:center;}
+
 /* Bottom Navigation */
 .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--nav-bg); display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 100; border-top: 1px solid var(--border-color); }
 .nav-item { background: transparent; border: none; color: #78909c; font-size: 11px; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 33%; cursor: pointer; }
@@ -94,18 +122,13 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
 .hint-text { text-align: center; font-size: 11px; color: #888; margin-top: -5px; margin-bottom: 10px; font-weight: bold; }
 .hide { display:none !important; }
 .flex-between { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-
-.report-card { background: #0a192f; color: #fff; padding: 20px; border-radius: 16px; }
-.report-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; color: var(--green); border-bottom: 1px solid #1e2d4d; padding-bottom: 8px; display: flex; justify-content: space-between; }
-.report-line { display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; }
-.report-val { font-weight:bold; color: #fff; }
-.action-btn { width: 100%; height: 48px; border: none; border-radius: 8px; font-weight: bold; margin-bottom: 10px; cursor: pointer; color: white; }
-.btn-blue { background: var(--primary); } .btn-green { background: var(--green); } .btn-red { background: #d32f2f; }
+.action-btn { width: 100%; height: 50px; border: none; border-radius: 12px; font-weight: bold; margin-bottom: 12px; cursor: pointer; color: white; font-size: 15px;}
+.btn-blue { background: #2962ff; } .btn-green { background: var(--green); } .btn-red { background: #d32f2f; }
 
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 3000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: opacity 0.3s; }
 .modal-overlay.active { visibility: visible; opacity: 1; }
 .modal-box { background: var(--card-bg); padding: 20px; border-radius: 16px; width: 85%; max-width: 320px; text-align: center; }
-.confirm-details { background: var(--input-bg); padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; margin-bottom: 15px; border: 1px solid var(--border-color); }
+.confirm-details { background: var(--input-bg); padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; margin-bottom: 15px; border: 1px solid var(--border-color); line-height: 1.5; }
 #toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 4000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; font-weight: bold; }
 #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
 @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
@@ -114,58 +137,60 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
 </head>
 <body>
 
-<div class="top-nav">
-    <select id="appTheme" class="theme-selector" onchange="changeAppTheme()">
-        <option value="default">🔵 Blue Theme</option>
-        <option value="emerald">🟢 Emerald</option>
-        <option value="dark">🌙 Dark Mode</option>
-    </select>
-</div>
-
 <div class="container" id="mainAppArea">
+    
+    <div class="top-nav">
+        <select id="appTheme" class="theme-selector" onchange="changeAppTheme()">
+            <option value="default">🔵 Blue Theme</option>
+            <option value="dark">🌙 Dark Theme</option>
+        </select>
+    </div>
+
     <div class="header-area">
         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="app-logo">
         <h2>Ronnie Ruchal</h2>
+        <!-- Korea Time Header -->
+        <div id="krDateHeader" style="font-size: 13px; color: var(--primary); font-weight: bold; margin-top: 5px; background: var(--input-bg); padding: 6px 12px; border-radius: 20px; display: inline-block; border: 1px solid var(--border-color);"></div>
     </div>
     
-    <div id="toast">डाटा सेभ भयो! ✅</div>
+    <div id="toast">Data Saved! ✅</div>
 
     <div id="tabHome" class="tab-content active">
         <div class="card" id="inputFormCard">
-            <label>Select Date</label>
+            <label>Select Date (날짜 선택)</label>
             <input type="date" id="inputDate" onchange="autoDetectDay()">
             
-            <label>Day Type</label>
+            <label>Day Type (근무 유형)</label>
             <select id="dayType" onchange="updateUI()">
-                <option value="weekday">Weekday (Mon-Fri)</option>
-                <option value="saturday">Saturday</option>
-                <option value="sunday">Sunday</option>
-                <option value="holiday">Public Holiday</option>
-                <option value="personal_leave">Personal Leave</option>
+                <option value="weekday">Weekday / 평일 (정상출근)</option>
+                <option value="saturday">Saturday / 토요일 (토요근무)</option>
+                <option value="sunday">Sunday / 일요일 (유급휴일)</option>
+                <option value="holiday">Holiday / 공휴일 (휴일근로)</option>
+                <option value="personal_leave">Personal Leave / 연차</option>
             </select>
             
             <div id="workedBox" class="hide">
-                <label>Worked Today?</label>
+                <label>Worked Today? (오늘 일했나요?)</label>
                 <select id="worked" onchange="updateUI()">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="yes">Yes / 네</option>
+                    <option value="no">No / 아니요 (결근/무급)</option>
                 </select>
             </div>
             
             <div id="outBox">
-                <label>Out Time</label>
+                <label>Out Time (퇴근 시간)</label>
                 <select id="outTime"></select>
             </div>
 
-            <label>Note (Optional)</label>
-            <input type="text" id="entryNote" placeholder="Short note here...">
+            <label>Note / 메노 (Optional)</label>
+            <input type="text" id="entryNote" placeholder="Short note here... / 메모 입력...">
 
-            <button class="btn-save" id="mainSaveBtn" onclick="confirmSave()">Save Entry 💾</button>
+            <button class="btn-save" id="mainSaveBtn" onclick="confirmSave()">Save Entry / 저장 💾</button>
         </div>
 
         <div class="card" style="padding-bottom: 5px;">
-            <h3 style="margin-top:0; font-size:14px; color:var(--primary); text-align:center;">Recent Entries (Last 3)</h3>
-            <table>
+            <h3 style="margin-top:0; font-size:14px; color:var(--primary); text-align:center;">Recent Entries (최근 기록)</h3>
+            <table class="hist-table">
                 <thead>
                     <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out</th><th class="col-note">Note</th></tr>
                 </thead>
@@ -183,11 +208,11 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
                 </div>
                 <button class="theme-selector" style="cursor:pointer;" onclick="toggleTimeFormat()" id="timeFormatBtn">🕒 12H</button>
             </div>
-            <div class="hint-text">👉 Swipe Right to Delete | 👆 Hold to Edit</div>
+            <div class="hint-text">👉 Swipe Right to Delete (삭제) | 👆 Hold to Edit (수정)</div>
             
-            <table>
+            <table class="hist-table">
                 <thead>
-                    <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out Time</th><th class="col-note">Note</th></tr>
+                    <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out</th><th class="col-note">Note</th></tr>
                 </thead>
                 <tbody id="fullHistoryBody"></tbody>
             </table>
@@ -195,56 +220,96 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
     </div>
 
     <div id="tabSummary" class="tab-content">
-        <div class="report-card" style="margin-bottom: 15px;">
-            <div class="report-title">
-                <span>Monthly Summary</span>
-                <span id="summaryMonthLabel" style="font-size:12px; color:#aaa; font-weight:normal;"></span>
+        
+        <div class="dark-summary-card">
+            <div class="title-row">
+                <h3>Monthly Summary</h3>
+                <span id="summaryMonthLabel">(Jun 2026)</span>
             </div>
-            <div class="report-line"><span>📅 Weekday (Mon-Fri):</span><span class="report-val" id="hWBasic">0 d</span></div>
-            <div class="report-line"><span>🏖️ Personal Leave:</span><span class="report-val" id="hLeave">0 d</span></div>
-            <div class="report-line"><span>🗓️ Saturday Days:</span><span class="report-val" id="hSat">0 d</span></div>
-            <div class="report-line"><span>☀️ Sunday Days:</span><span class="report-val" id="hSun">0 d</span></div>
-            <div class="report-line"><span>🎈 Public Holiday:</span><span class="report-val" id="hHol">0 d</span></div>
-            <div class="report-line" style="border-top:1px solid #1e2d4d; padding-top:8px; margin-top:8px;"><span>⚙️ Normal OT:</span><span class="report-val" id="hNormalOT">0.0 h</span></div>
-            <div class="report-line"><span>🌙 Night OT (Total):</span><span class="report-val" id="hNightOT">0.0 h</span></div>
+            <hr>
+            <div class="data-row"><span>📅 Weekday (Mon-Fri):</span> <span id="disp_wD">0 d</span></div>
+            <div class="data-row"><span>⛱️ Personal Leave:</span> <span id="disp_leaveD">0 d</span></div>
+            <div class="data-row"><span>🗓️ Saturday Days:</span> <span id="disp_satD">0 d</span></div>
+            <div class="data-row"><span>☀️ Sunday Days:</span> <span id="disp_sunD">0 d</span></div>
+            <div class="data-row"><span>🎈 Public Holiday:</span> <span id="disp_holD">0 d</span></div>
+            <hr>
+            <div class="data-row"><span>⚙️ Normal OT:</span> <span id="disp_otHrs">0.0 h</span></div>
+            <div class="data-row"><span>🌙 Night OT (Total):</span> <span id="disp_nightHrs">0.0 h</span></div>
         </div>
 
-        <div class="card">
-            <button class="action-btn btn-blue" onclick="openReportPage()" style="height: 60px; font-size: 16px;">View & Share Report 📄</button>
-            <div style="height: 10px;"></div>
-            <button class="action-btn btn-red" onclick="resetAll()">Reset App Data 🗑️</button>
+        <!-- Hidden Data Keepers -->
+        <div style="display:none;">
+            <span id="s_wD">0</span><span id="s_leaveD">0</span><span id="s_absentD">0</span><span id="s_earlyD">0</span>
+            <span id="s_paidHolD">0</span><span id="s_unpaidSatD">0</span><span id="s_satWorkD">0</span><span id="s_holWorkD">0</span>
+            <span id="s_normalHrs">0</span><span id="s_otHrs">0</span><span id="s_paidHolHrs">0</span><span id="s_holWorkHrs">0</span><span id="s_nightHrs">0</span>
+            <span id="s_pubHolOtHrs">0</span>
         </div>
+
+        <button class="action-btn btn-blue" onclick="openReportPage()" style="height: 60px;">View & Share Report 📄</button>
+        <button class="action-btn btn-red" onclick="resetAll()">Reset App Data 🗑️</button>
     </div>
 </div>
 
 <div id="reportPage" class="hide" style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:2000; overflow-y:auto; padding-bottom:50px;">
     
+    <div style="display:none;"><span id="r_pubHolOtHrs">0</span></div>
+
     <div id="captureArea" style="padding:15px; background:var(--bg); max-width:420px; margin:auto;">
         <div class="header-area" style="margin-bottom:10px;">
             <h2 style="margin:0; font-size: 22px;">Ronnie Payroll Report</h2>
             <h4 id="repMonthTitle" style="margin:5px 0; color:#666;"></h4>
         </div>
 
-        <div class="report-card" style="margin-bottom: 15px; padding:15px;">
-            <div class="report-title">Monthly Summary</div>
-            <div class="report-line"><span>📅 Weekday (Mon-Fri):</span><span class="report-val" id="rWBasic">0 d</span></div>
-            <div class="report-line"><span>🏖️ Personal Leave:</span><span class="report-val" id="rLeave">0 d</span></div>
-            <div class="report-line"><span>🗓️ Saturday Days:</span><span class="report-val" id="rSat">0 d</span></div>
-            <div class="report-line"><span>☀️ Sunday Days:</span><span class="report-val" id="rSun">0 d</span></div>
-            <div class="report-line"><span>🎈 Public Holiday:</span><span class="report-val" id="rHol">0 d</span></div>
-            <div class="report-line" style="border-top:1px solid #1e2d4d; padding-top:8px; margin-top:8px;"><span>⚙️ Normal OT:</span><span class="report-val" id="rNormalOT">0.0 h</span></div>
-            <div class="report-line"><span>🌙 Night OT (Total):</span><span class="report-val" id="rNightOT">0.0 h</span></div>
-        </div>
-        
-        <div id="repSalaryBox" class="hide" style="background:#e8f5e9; padding:12px; border-radius:12px; margin-bottom:15px; border:1px solid #a5d6a7; color:#2e7d32;">
-            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>Basic Pay:</span><span id="rCalcBasic" style="font-weight:bold;">₩ 0</span></div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>OT Pay (1.5x):</span><span id="rCalcOT" style="font-weight:bold;">₩ 0</span></div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>Night Pay (3.0x):</span><span id="rCalcNight" style="font-weight:bold;">₩ 0</span></div>
-            <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:8px; border-top:1px solid #a5d6a7; padding-top:8px;">Total: ₩ <span id="rFinalSalary">0</span></div>
+        <div class="card" style="padding:10px; margin-bottom:10px; border-radius:8px;">
+            <div class="slip-wrapper" style="margin-bottom:10px; box-shadow:none; border:1px solid #333;">
+                <table class="slip-table" style="border:2px solid #333;">
+                    <tr>
+                        <th>정상출근</th><th>연차</th><th>결근</th><th>조퇴</th><th>유급휴일</th><th>무급휴무</th><th>토요근무</th><th>휴일근로</th>
+                    </tr>
+                    <tr>
+                        <td id="r_wD">0</td><td id="r_leaveD">-</td><td id="r_absentD">-</td><td>-</td><td id="r_paidHolD">0</td><td id="r_unpaidSatD">0</td><td id="r_satWorkD">0</td><td id="r_holWorkD">0</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="slip-wrapper" style="margin-bottom:10px; box-shadow:none;">
+                <table class="slip-table" style="border:2px solid #333;">
+                    <tr>
+                        <th class="hl-bg" style="width:20%;">시 급</th><td id="r_rateDisplay" style="width:15%; color:#d32f2f;">0</td>
+                        <th class="hl-bg" style="width:25%;">정상근로시간</th><td id="r_normalHrs" style="width:10%;">0.0</td>
+                        <th class="hl-bg" style="width:20%;">연장근로</th><td id="r_otHrs" style="width:10%;">0.0</td>
+                    </tr>
+                    <tr>
+                        <th class="hl-bg">주휴/유급휴일</th><td id="r_paidHolHrs">0.0</td>
+                        <th class="hl-bg">야간근로</th><td id="r_nightHrs">0.0</td>
+                        <th class="hl-bg">휴일근로</th><td id="r_holWorkHrs">0.0</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="slip-wrapper" style="box-shadow:none;">
+                <table class="slip-table" style="border:2px solid #333;">
+                    <tr>
+                        <th colspan="4" style="font-size:14px; background:#cfd8dc; letter-spacing: 5px;">급 여 내 역</th>
+                    </tr>
+                    <tr>
+                        <th class="hl-bg" style="width:25%;">지급액(근계참조)</th><td id="p_basePay" style="width:25%; color:#d32f2f; text-align:right; padding-right:10px;">0</td>
+                        <th class="hl-bg" style="width:25%;">연장근로수당</th><td id="p_otPay" style="width:25%; color:#d32f2f; text-align:right; padding-right:10px;">0</td>
+                    </tr>
+                    <tr>
+                        <th class="hl-bg">휴일근로수당</th><td id="p_holPay" style="color:#d32f2f; text-align:right; padding-right:10px;">0</td>
+                        <th class="hl-bg">주휴/유급휴일수당</th><td id="p_paidHolPay" style="color:#d32f2f; text-align:right; padding-right:10px;">0</td>
+                    </tr>
+                    <tr>
+                        <th class="hl-bg">야간근로금액</th><td id="p_nightPay" style="color:#d32f2f; text-align:right; padding-right:10px;">-</td>
+                        <th class="hl-bg" style="background:#b0bec5; font-size:13px;">총합계금액</th><td id="p_totalPay" style="color:#d32f2f; font-size:14px; font-weight:900; background:#eceff1; text-align:right; padding-right:10px;">0</td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div style="background:var(--card-bg); border-radius:12px; overflow:hidden; border:1px solid var(--border-color);">
-            <table style="margin-bottom: 0;">
+            <table class="hist-table" style="margin-bottom: 0;">
                 <thead style="background:var(--border-color);">
                     <tr><th class="col-date">Date</th><th class="col-day">Day</th><th class="col-hrs">Hrs</th><th class="col-ot">OT</th><th class="col-out">Out</th><th class="col-note">Note</th></tr>
                 </thead>
@@ -254,21 +319,21 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
     </div>
 
     <div id="reportControls" style="padding:15px; max-width:420px; margin:auto; background:var(--card-bg); border-top:2px solid var(--border-color); margin-top:15px; border-radius:16px;">
-        <label>Hourly Rate (₩)</label>
+        <label>Hourly Rate / 시급 (₩)</label>
         <input type="number" id="repHourlyRate" value="0" style="margin-bottom: 10px;">
-        <button class="action-btn btn-blue" onclick="calcReportSalary()">Calculate Salary ₩</button>
+        <button class="action-btn btn-blue" onclick="calcReportSalary()">Calculate Salary / 급여 계산 ₩</button>
         <div style="height: 10px;"></div>
-        <button class="action-btn btn-green" onclick="generateReportPhoto()">📷 Take Photo / Share</button>
-        <button class="action-btn btn-red" onclick="closeReportPage()">⬅️ Back to App</button>
+        <button class="action-btn btn-green" onclick="generateReportPhoto()">📷 Take Photo / 사진 캡처 및 공유</button>
+        <button class="action-btn btn-red" onclick="closeReportPage()">⬅️ Back to App / 앱으로 돌아가기</button>
     </div>
 </div>
 
 <div id="confirmModal" class="modal-overlay">
     <div class="modal-box">
-        <h3 style="margin-top:0; color:var(--primary);">Confirm Entry</h3>
+        <h3 style="margin-top:0; color:var(--primary);">Confirm Entry (확인)</h3>
         <div id="confirmText" class="confirm-details"></div>
-        <button class="action-btn btn-green" onclick="executeSave()">Confirm & Save ✅</button>
-        <button class="action-btn btn-red" onclick="closeConfirmModal()">Cancel ❌</button>
+        <button class="action-btn btn-green" onclick="executeSave()">Confirm & Save / 저장 ✅</button>
+        <button class="action-btn btn-red" onclick="closeConfirmModal()">Cancel / 취소 ❌</button>
     </div>
 </div>
 
@@ -277,8 +342,21 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
         <h3 style="color:var(--primary); margin-top:0;">✅ Photo Ready!</h3>
         <p style="font-size:13px; color:#666;">👇 <b>फोटोमा थिचेर राख्नुहोस् (Long Press)</b> र 'Save Image' वा 'Share' छान्नुहोस्। 👇</p>
         <img id="resultImage" style="width:100%; border:2px dashed #ccc; border-radius:8px; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-        <button class="action-btn btn-blue" onclick="shareNativeImage()">📤 Share (Native)</button>
-        <button class="action-btn btn-red" onclick="document.getElementById('photoModal').classList.remove('active')">Close ❌</button>
+        <button class="action-btn btn-blue" onclick="shareNativeImage()">📤 Share / 공유 (Native)</button>
+        <button class="action-btn btn-red" onclick="document.getElementById('photoModal').classList.remove('active')">Close / 닫기 ❌</button>
+    </div>
+</div>
+
+<!-- Missing Entry Modal -->
+<div id="missingModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 style="margin-top:0; color:#e65100;">⚠️ Missing Entries!</h3>
+        <p style="font-size:13px; color:var(--text); margin-bottom:15px; line-height:1.5;">
+            तपाईंले निम्न दिनहरूको डाटा राख्न छुटाउनु भएको छ:<br>
+            <span style="color:#777; font-size:11px;">(You missed entries for these days)</span><br><br>
+            <b id="missingDatesText" style="color:#d32f2f; font-size: 14px;"></b>
+        </p>
+        <button class="action-btn btn-blue" onclick="document.getElementById('missingModal').classList.remove('active')">OK / ठीक छ</button>
     </div>
 </div>
 
@@ -295,18 +373,103 @@ body.theme-dark .delete-ready td { color: #ff5252 !important; border-color: #b71
 </nav>
 
 <script>
-const STORE_KEY="ronnie_pro_v8.4";
-let entries=JSON.parse(localStorage.getItem(STORE_KEY)||"[]");
+// --- CRITICAL FIX 1: Prevent Auto-Delete Bug ---
+const STORE_KEY = "ronnie_pro_v9.2";
+// App will load NEW key first. If empty, checks old keys to import past data securely.
+let entries = JSON.parse(localStorage.getItem(STORE_KEY) || localStorage.getItem("ronnie_pro_v9.0") || localStorage.getItem("ronnie_pro_v8.4") || "[]");
+
+// Automatically save to the new key if it was using an older one
+if (!localStorage.getItem(STORE_KEY) && entries.length > 0) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(entries));
+}
+
 let pendingEntry = null; 
 let is24HourFormat = false; 
 let isEditing = false;
 let editTargetDate = null;
 let currentViewMonth = new Date().toISOString().slice(0, 7);
-let savedHourlyRate = localStorage.getItem("ronnie_hourly_rate") || 0;
+let savedHourlyRate = localStorage.getItem("ronnie_hourly_rate") || 11500;
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const daysArr = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 const times=["5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM","12:00 AM"];
+
+// KST DATE FUNCTIONS
+function getKrDateObject() {
+    let krTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" });
+    return new Date(krTime);
+}
+
+function getKrDateString() {
+    let d = getKrDateObject();
+    let yyyy = d.getFullYear();
+    let mm = String(d.getMonth() + 1).padStart(2, '0');
+    let dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+function updateHeaderDate() {
+    let d = getKrDateObject();
+    const days = ["일 (Sun)", "월 (Mon)", "화 (Tue)", "수 (Wed)", "목 (Thu)", "금 (Fri)", "토 (Sat)"];
+    let dayName = days[d.getDay()];
+    document.getElementById("krDateHeader").innerText = `📅 KST: ${getKrDateString()} [${dayName}]`;
+}
+
+// --- CRITICAL FIX 2: Smart Missing Entry Logic ---
+function checkMissingEntries() {
+    if (!entries || entries.length === 0) return;
+    
+    let todayDate = getKrDateObject();
+    todayDate.setHours(0,0,0,0);
+    
+    // Get the current month prefix (e.g., "2026-08")
+    let yyyy = todayDate.getFullYear();
+    let mm = String(todayDate.getMonth() + 1).padStart(2, '0');
+    let currentMonthPrefix = `${yyyy}-${mm}`;
+    
+    // Check missing days ONLY for this active month
+    let thisMonthEntries = entries.filter(e => e.date.startsWith(currentMonthPrefix));
+    
+    // IF data entry has NOT started for this month, don't show the popup
+    if (thisMonthEntries.length === 0) return;
+    
+    // Get the very FIRST date they entered for THIS MONTH
+    let firstEntryDateThisMonth = new Date(thisMonthEntries[0].date);
+    firstEntryDateThisMonth.setHours(0,0,0,0);
+    
+    let entryDates = new Set(thisMonthEntries.map(e => e.date));
+    let missing = [];
+    
+    // Start counting missing days from that FIRST entry up to YESTERDAY
+    let checkDate = new Date(firstEntryDateThisMonth);
+    
+    while (checkDate < todayDate) {
+        let cyyyy = checkDate.getFullYear();
+        let cmm = String(checkDate.getMonth() + 1).padStart(2, '0');
+        let cdd = String(checkDate.getDate()).padStart(2, '0');
+        let dStr = `${cyyyy}-${cmm}-${cdd}`;
+        
+        if (!entryDates.has(dStr)) {
+            missing.push(dStr);
+        }
+        checkDate.setDate(checkDate.getDate() + 1);
+    }
+    
+    if (missing.length > 0) {
+        let displayMissing = missing;
+        let moreCount = 0;
+        if (missing.length > 7) {
+            displayMissing = missing.slice(-7);
+            moreCount = missing.length - 7;
+        }
+        
+        let missingStr = displayMissing.join("<br>");
+        if (moreCount > 0) missingStr += `<br><i style="font-size:11px; color:#555;">...and ${moreCount} more days</i>`;
+        
+        document.getElementById("missingDatesText").innerHTML = missingStr;
+        document.getElementById("missingModal").classList.add("active");
+    }
+}
 
 function switchTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -373,7 +536,7 @@ function updateUI(){
 function updateMonthSelector() {
     const sel = document.getElementById("monthSelector"); sel.innerHTML = "";
     let avail = new Set(); entries.forEach(e => avail.add(e.date.slice(0, 7)));
-    avail.add(new Date().toISOString().slice(0, 7));
+    avail.add(getKrDateString().slice(0, 7)); // Use KST Month
     let sorted = Array.from(avail).sort().reverse();
     sorted.forEach(m => { let [y, mo] = m.split('-'); sel.add(new Option(`${months[parseInt(mo)-1]} ${y}`, m)); });
     if(sorted.includes(currentViewMonth)) sel.value = currentViewMonth;
@@ -389,38 +552,47 @@ function changeMonth() {
 
 function confirmSave() {
     let date = document.getElementById("inputDate").value;
-    if(!date) return alert("मिति रोज्नुहोस्!");
+    if(!date) return showToast("날짜를 선택하세요!");
     if(entries.find(e => e.date === date) && (!isEditing || editTargetDate !== date)) {
-        return alert("यो मितिको डाटा पहिल्यै छ! History ट्याबमा गएर Hold (थिचेर) Edit गर्न सक्नुहुन्छ।");
+        return alert("Data already exists! / 이미 기록이 있습니다! Edit in History.");
     }
 
     let type = document.getElementById("dayType").value, outVal = document.getElementById("outTime").value;
     let workedVal = (type === "weekday") ? "yes" : ((type === "personal_leave") ? "no" : document.getElementById("worked").value);
     let noteVal = document.getElementById("entryNote").value.trim();
     
-    let normalOt = 0, nightOt = 0, basicHrs = 0, totalMins = 0;
+    let normalOt = 0, nightOt = 0, totalMins = 0;
 
     if(workedVal === "yes") {
         let [t, m] = outVal.split(' '), [h, min] = t.split(':').map(Number);
-        if(h===12) h=(m==='AM')?0:12; else if(m==='PM') h+=12;
+        if (outVal === "12:00 AM") {
+            h = 24; min = 0;
+        } else {
+            if(h===12) h=(m==='AM')?0:12; else if(m==='PM') h+=12;
+        }
         totalMins = (h*60)+min;
     }
 
     if (type === "sunday" || type === "holiday") {
-        basicHrs = 8; if (workedVal === "yes") { normalOt = 8; nightOt = Math.max(0, (totalMins - 1320) / 60); }
+        if (workedVal === "yes") { 
+            normalOt = Math.max(0, (Math.min(totalMins, 1320) - 1050) / 60); 
+            nightOt = Math.max(0, (totalMins - 1320) / 60); 
+        }
     } else if (type === "saturday") {
-        if (workedVal === "yes") { basicHrs = 0; normalOt = 8 + Math.max(0, (Math.min(totalMins, 1320) - 1050) / 60); nightOt = Math.max(0, (totalMins - 1320) / 60); }
-    } else if (type === "personal_leave") { basicHrs = 8;
-    } else {
-        basicHrs = 8; normalOt = Math.max(0, (Math.min(totalMins, 1320) - 1050) / 60); nightOt = Math.max(0, (totalMins - 1320) / 60);
+        if (workedVal === "yes") { 
+            normalOt = 8 + Math.max(0, (Math.min(totalMins, 1320) - 1050) / 60); 
+            nightOt = Math.max(0, (totalMins - 1320) / 60); 
+        }
+    } else if (type === "weekday") {
+        normalOt = Math.max(0, (Math.min(totalMins, 1320) - 1050) / 60); 
+        nightOt = Math.max(0, (totalMins - 1320) / 60);
     }
     
-    pendingEntry = { date, type, worked:workedVal, normalOt, nightOt, basicHrs, outVal, note: noteVal };
+    pendingEntry = { date, type, worked:workedVal, normalOt, nightOt, outVal, note: noteVal };
 
-    let typeNames = { "weekday": "Weekday", "saturday": "Saturday", "sunday": "Sunday", "holiday": "Holiday", "personal_leave": "Leave" };
-    let html = `<b>Date:</b> ${date}<br><b>Day:</b> ${typeNames[type]}<br><b>Worked:</b> ${workedVal === 'yes' ? 'Yes' : 'No'}<br>`;
-    if(workedVal === 'yes') html += `<b>Out:</b> ${outVal}<br><b>OT:</b> ${normalOt.toFixed(1)} h<br><b>Night:</b> ${nightOt.toFixed(1)} h`;
-    if(noteVal) html += `<br><b>Note:</b> ${noteVal}`;
+    let typeNames = { "weekday": "정상출근 (Weekday)", "saturday": "토요근무 (Saturday)", "sunday": "유급휴일 (Sunday)", "holiday": "휴일근로 (Holiday)", "personal_leave": "연차 (Leave)" };
+    let html = `<b>Date:</b> ${date}<br><b>Type:</b> ${typeNames[type]}<br><b>Worked:</b> ${workedVal === 'yes' ? 'Yes' : 'No'}<br>`;
+    if(workedVal === 'yes') html += `<b>Out:</b> ${outVal}<br><b>New OT calculated:</b> ${normalOt.toFixed(1)} h`;
 
     document.getElementById("confirmText").innerHTML = html;
     document.getElementById("confirmModal").classList.add("active");
@@ -432,16 +604,18 @@ function executeSave() {
         entries = entries.filter(e => e.date !== editTargetDate);
         isEditing = false; editTargetDate = null;
         let btn = document.getElementById("mainSaveBtn");
-        btn.innerHTML = "Save Entry 💾"; btn.style.background = "var(--primary)";
+        btn.innerHTML = "Save Entry / 저장 💾"; btn.style.background = "var(--primary)";
     }
     entries.push(pendingEntry);
     entries.sort((a,b)=>new Date(a.date)-new Date(b.date));
+    
+    // Save to the Correct Key!
     localStorage.setItem(STORE_KEY, JSON.stringify(entries));
     
     document.getElementById("entryNote").value = ""; 
     currentViewMonth = pendingEntry.date.slice(0, 7);
     updateMonthSelector(); renderData(); closeConfirmModal();
-    showToast(isEditing ? "डाटा अपडेट भयो! ✏️" : "डाटा सेभ भयो! ✅");
+    showToast(isEditing ? "Updated! / 수정 완료! ✏️" : "Saved! / 저장 완료! ✅");
 }
 
 function closeConfirmModal() { document.getElementById("confirmModal").classList.remove("active"); pendingEntry = null; }
@@ -455,16 +629,15 @@ function editEntry(dateStr) {
     document.getElementById("entryNote").value = entry.note || "";
     
     isEditing = true; editTargetDate = entry.date;
-    let btn = document.getElementById("mainSaveBtn"); btn.innerHTML = "Update Entry ✏️"; btn.style.background = "#ff9800"; 
+    let btn = document.getElementById("mainSaveBtn"); btn.innerHTML = "Update Entry / 수정 ✏️"; btn.style.background = "#ff9800"; 
     document.querySelectorAll('.nav-item')[0].click();
-    showToast("तपाईं सम्पादन (Edit) गर्दै हुनुहुन्छ ✏️");
+    showToast("Editing Mode ✏️");
 }
 
 function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
     let body = document.getElementById(targetTbodyId); body.innerHTML = "";
     if(dataList.length === 0) { body.innerHTML = "<tr><td colspan='6' style='color:#999;'>No records found</td></tr>"; return; }
-    
-    let todayStr = new Date().toISOString().split('T')[0];
+    let todayStr = getKrDateString();
 
     dataList.forEach((e) => {
         let tr = document.createElement("tr");
@@ -479,19 +652,29 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
             let typeLabel = e.type === "personal_leave" ? "LV" : daysArr[d.getDay()];
             let outTimeDisplay = (e.worked === "yes" && e.outVal) ? formatOutTime(e.outVal) : "-";
             
-            // Do not show today's dot if rendering for report
             let dot = (e.date === todayStr && targetTbodyId !== "repHistoryBody") ? `<div class="dot"></div>` : '';
-            let totalOt = (e.normalOt + e.nightOt).toFixed(1);
+            
+            let displayBasic = 0;
+            if(e.type==="weekday" && e.worked==="yes") displayBasic = 8;
+            if(e.type==="personal_leave") displayBasic = 8;
+            
+            let displayOt = e.normalOt || 0;
+            if(e.type==="sunday" || e.type==="holiday") {
+                if(e.worked==="yes" && displayOt >= 8 && e.basicHrs===8) {
+                    displayOt = displayOt - 8;
+                }
+            }
+
+            let totalOt = (displayOt + (e.nightOt||0)).toFixed(1);
             let displayNote = (e.note && e.note.trim() !== "") ? e.note : "-";
 
             tr.innerHTML = `<td class="col-date td-rel">${dot}<span class="date-big">${e.date.split('-')[2]}</span><span class="month-small">${months[d.getMonth()]}</span></td>
                             <td class="col-day"><b>${typeLabel}</b></td>
-                            <td class="col-hrs">${e.basicHrs}</td>
+                            <td class="col-hrs">${displayBasic}</td>
                             <td class="col-ot"><b>${totalOt}</b></td>
                             <td class="col-out">${outTimeDisplay}</td>
                             <td class="col-note">${displayNote}</td>`;
 
-            // Swipe logic ONLY for main history, not report page
             if (targetTbodyId === "fullHistoryBody") {
                 let startX=0, startY=0, currentX=0, holdTimer;
                 tr.addEventListener('touchstart', ev => { 
@@ -512,7 +695,7 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
                         tr.style.transform = 'translateX(100%)'; tr.style.opacity = 0; 
                         setTimeout(() => {
                             entries = entries.filter(item => item.date !== e.date); localStorage.setItem(STORE_KEY, JSON.stringify(entries));
-                            updateMonthSelector(); renderData(); showToast("डाटा डिलिट भयो! 🗑️");
+                            updateMonthSelector(); renderData(); showToast("Deleted! 🗑️");
                         }, 300); 
                     } else { tr.style.transform = 'translateX(0)'; tr.classList.remove('delete-ready'); }
                 });
@@ -525,23 +708,72 @@ function generateTableRows(dataList, targetTbodyId, includeMissing = true) {
 function renderData() {
     let filtered = entries.filter(e => e.date.startsWith(currentViewMonth));
     
-    let wD=0, pLD=0, sD=0, suD=0, hD=0, nOT=0, niOT=0;
+    let wD=0, leaveD=0, absentD=0, earlyD=0, paidHolD=0, unpaidSatD=0, satWorkD=0, holWorkD=0;
+    let normalHrs=0, otHrs=0, nightHrs=0, paidHolHrs=0, holWorkHrs=0, pubHolOtHrs=0;
+    let sum_wD=0, sum_leave=0, sum_sat=0, sum_sun=0, sum_hol=0;
+
     filtered.forEach(e => {
-        if(e.type==="weekday") { wD++; nOT+=e.normalOt; } 
-        else if(e.type==="personal_leave") pLD++;
-        else if(e.type==="saturday" && e.worked==="yes") { sD++; nOT+=e.normalOt; }
-        else if(e.type==="sunday") suD++;
-        else if(e.type==="holiday") hD++;
-        niOT += e.nightOt;
+        let isWorked = (e.worked === "yes");
+        let eOt = e.normalOt || 0;
+        let eNi = e.nightOt || 0;
+
+        if((e.type==="sunday" || e.type==="holiday") && isWorked && e.basicHrs===8 && eOt >= 8) {
+            eOt = eOt - 8; 
+        }
+
+        if(e.type === "weekday") {
+            sum_wD++;
+            if(isWorked) { wD++; normalHrs += 8; otHrs += eOt; nightHrs += eNi; }
+            else { absentD++; }
+        }
+        else if(e.type === "personal_leave") {
+            sum_leave++;
+            leaveD++; normalHrs += 8;
+        }
+        else if(e.type === "saturday") {
+            sum_sat++;
+            if(isWorked) { satWorkD++; otHrs += eOt; nightHrs += eNi; }
+            else { unpaidSatD++; }
+        }
+        else if(e.type === "sunday" || e.type === "holiday") {
+            if(e.type === "sunday") sum_sun++;
+            if(e.type === "holiday") sum_hol++;
+
+            if(isWorked) { 
+                holWorkD++; 
+                holWorkHrs += 8; 
+                otHrs += eOt; 
+                nightHrs += eNi; 
+                
+                if(e.type === "holiday") {
+                    pubHolOtHrs += eOt;
+                }
+            }
+            else { paidHolD++; }
+            paidHolHrs += 8; 
+        }
     });
 
-    document.getElementById("hWBasic").innerText = `${wD} d`;
-    document.getElementById("hLeave").innerText = `${pLD} d`;
-    document.getElementById("hSat").innerText = `${sD} d`;
-    document.getElementById("hSun").innerText = `${suD} d`;
-    document.getElementById("hHol").innerText = `${hD} d`;
-    document.getElementById("hNormalOT").innerText = `${nOT.toFixed(1)} h`;
-    document.getElementById("hNightOT").innerText = `${niOT.toFixed(1)} h`;
+    const setT = (id, val) => { let el=document.getElementById(id); if(el) el.innerText = val===0?'-':val; }
+    
+    setT("s_wD", wD); setT("s_leaveD", leaveD); setT("s_absentD", absentD); setT("s_earlyD", earlyD);
+    setT("s_paidHolD", paidHolD); setT("s_unpaidSatD", unpaidSatD); setT("s_satWorkD", satWorkD); setT("s_holWorkD", holWorkD);
+    
+    document.getElementById("s_normalHrs").innerText = normalHrs.toFixed(1);
+    document.getElementById("s_otHrs").innerText = otHrs.toFixed(1);
+    document.getElementById("s_paidHolHrs").innerText = paidHolHrs.toFixed(1);
+    document.getElementById("s_holWorkHrs").innerText = holWorkHrs.toFixed(1);
+    document.getElementById("s_nightHrs").innerText = nightHrs.toFixed(1);
+    
+    setT("s_pubHolOtHrs", pubHolOtHrs);
+
+    document.getElementById("disp_wD").innerText = sum_wD + " d";
+    document.getElementById("disp_leaveD").innerText = sum_leave + " d";
+    document.getElementById("disp_satD").innerText = sum_sat + " d";
+    document.getElementById("disp_sunD").innerText = sum_sun + " d";
+    document.getElementById("disp_holD").innerText = sum_hol + " d";
+    document.getElementById("disp_otHrs").innerText = otHrs.toFixed(1) + " h";
+    document.getElementById("disp_nightHrs").innerText = nightHrs.toFixed(1) + " h";
 
     let fullList = [];
     for(let i=0; i<filtered.length; i++) {
@@ -562,31 +794,22 @@ function renderData() {
     generateTableRows(recentList, "recentHistoryBody", false);
 }
 
-function resetAll(){ if(confirm("सबै डाटा डिलिट हुनेछ! पक्का हुनुहुन्छ?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); updateMonthSelector(); renderData(); } }
-
-// ================= NEW REPORT PAGE LOGIC =================
+function resetAll(){ if(confirm("모든 데이터가 삭제됩니다! 확실합니까?")){ entries=[]; localStorage.setItem(STORE_KEY,"[]"); updateMonthSelector(); renderData(); } }
 
 function openReportPage() {
     window.scrollTo(0, 0);
-    // Hide main UI
     document.getElementById("mainAppArea").classList.add("hide");
     document.getElementById("mainBottomNav").classList.add("hide");
-    // Show Report Page
     document.getElementById("reportPage").classList.remove("hide");
-
-    // Set Title
     document.getElementById("repMonthTitle").innerText = document.getElementById("summaryMonthLabel").innerText;
 
-    // Copy Summary Stats
-    document.getElementById("rWBasic").innerText = document.getElementById("hWBasic").innerText;
-    document.getElementById("rLeave").innerText = document.getElementById("hLeave").innerText;
-    document.getElementById("rSat").innerText = document.getElementById("hSat").innerText;
-    document.getElementById("rSun").innerText = document.getElementById("hSun").innerText;
-    document.getElementById("rHol").innerText = document.getElementById("hHol").innerText;
-    document.getElementById("rNormalOT").innerText = document.getElementById("hNormalOT").innerText;
-    document.getElementById("rNightOT").innerText = document.getElementById("hNightOT").innerText;
+    ['wD','leaveD','absentD','paidHolD','unpaidSatD','satWorkD','holWorkD'].forEach(id => {
+        document.getElementById("r_"+id).innerText = document.getElementById("s_"+id).innerText;
+    });
+    ['normalHrs','otHrs','paidHolHrs','holWorkHrs','nightHrs', 'pubHolOtHrs'].forEach(id => {
+        document.getElementById("r_"+id).innerText = document.getElementById("s_"+id).innerText;
+    });
 
-    // Copy Table Data
     let filtered = entries.filter(e => e.date.startsWith(currentViewMonth));
     let fullList = [];
     for(let i=0; i<filtered.length; i++) {
@@ -603,10 +826,8 @@ function openReportPage() {
         }
     }
     generateTableRows(fullList, "repHistoryBody", true);
-
-    // Reset Salary view & Load saved rate
-    document.getElementById("repSalaryBox").classList.add("hide");
     document.getElementById("repHourlyRate").value = savedHourlyRate;
+    calcReportSalary(); 
 }
 
 function closeReportPage() {
@@ -618,65 +839,67 @@ function closeReportPage() {
 function calcReportSalary() {
     let rate = parseFloat(document.getElementById("repHourlyRate").value) || 0;
     savedHourlyRate = rate;
-    localStorage.setItem("ronnie_hourly_rate", rate); // Remember it
+    localStorage.setItem("ronnie_hourly_rate", rate);
 
-    let bP=0, wOT=0, nP=0;
-    entries.filter(e => e.date.startsWith(currentViewMonth)).forEach(e => {
-        bP += (e.basicHrs * rate);
-        if(e.worked === "yes") wOT += (e.normalOt * rate * 1.5);
-        nP += (e.nightOt * rate * 3.0); 
-    });
+    document.getElementById("r_rateDisplay").innerText = rate.toLocaleString();
 
-    document.getElementById("repSalaryBox").classList.remove("hide");
-    document.getElementById("rCalcBasic").innerText = "₩ " + bP.toLocaleString();
-    document.getElementById("rCalcOT").innerText = "₩ " + wOT.toLocaleString();
-    document.getElementById("rCalcNight").innerText = "₩ " + nP.toLocaleString();
-    document.getElementById("rFinalSalary").innerText = Math.round(bP + wOT + nP).toLocaleString();
+    let nHrs = parseFloat(document.getElementById("r_normalHrs").innerText) || 0;
+    let oHrs = parseFloat(document.getElementById("r_otHrs").innerText) || 0;
+    let phHrs = parseFloat(document.getElementById("r_paidHolHrs").innerText) || 0;
+    let hwHrs = parseFloat(document.getElementById("r_holWorkHrs").innerText) || 0;
+    let niHrs = parseFloat(document.getElementById("r_nightHrs").innerText) || 0;
+    
+    let pubHolOtHrs = parseFloat(document.getElementById("r_pubHolOtHrs").innerText) || 0;
+    let standardOtHrs = oHrs - pubHolOtHrs;
+
+    let basePay = nHrs * rate;                      
+    let otPay = (standardOtHrs * rate * 1.5) + (pubHolOtHrs * rate * 3.0); 
+    let holPay = hwHrs * rate * 1.5;                
+    let paidHolPay = phHrs * rate;                  
+    let nightPay = niHrs * rate * 2.0;              
+
+    let totalPay = basePay + otPay + holPay + paidHolPay + nightPay; 
+
+    const fmt = v => v===0 ? '-' : Math.round(v).toLocaleString();
+
+    document.getElementById("p_basePay").innerText = fmt(basePay);
+    document.getElementById("p_otPay").innerText = fmt(otPay);
+    document.getElementById("p_holPay").innerText = fmt(holPay);
+    document.getElementById("p_paidHolPay").innerText = fmt(paidHolPay);
+    document.getElementById("p_nightPay").innerText = fmt(nightPay);
+    document.getElementById("p_totalPay").innerText = Math.round(totalPay).toLocaleString();
 }
 
-// Generate the photo and display it for saving/sharing
 function generateReportPhoto() {
     window.scrollTo(0, 0);
-    showToast("प्रोसेसिङ हुँदैछ... ⏳");
-    
+    showToast("Processing... ⏳");
     setTimeout(() => {
         const area = document.getElementById('captureArea');
-        html2canvas(area, { 
-            scale: 2, 
-            backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'), 
-            useCORS: true 
-        }).then(canvas => {
-            let imgData = canvas.toDataURL("image/png");
-            document.getElementById('resultImage').src = imgData;
+        html2canvas(area, { scale: 2, backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'), useCORS: true })
+        .then(canvas => {
+            document.getElementById('resultImage').src = canvas.toDataURL("image/png");
             document.getElementById('photoModal').classList.add('active');
-        }).catch(err => {
-            alert("फोटो निकाल्न समस्या भयो।");
-        });
+        }).catch(err => alert("Error generating photo."));
     }, 500);
 }
 
-// Native Web Share API
 async function shareNativeImage() {
     let imgUrl = document.getElementById('resultImage').src;
     try {
         let blob = await (await fetch(imgUrl)).blob();
         let file = new File([blob], `Ronnie_Report_${currentViewMonth}.png`, { type: blob.type });
-        if (navigator.share) {
-            await navigator.share({
-                title: 'Ronnie Payroll Report',
-                files: [file]
-            });
-        } else {
-            alert("Share feature is not supported on this browser. Please long-press the image to save it.");
-        }
-    } catch(e) {
-        alert("Please long-press the image above to save it.");
-    }
+        if (navigator.share) await navigator.share({ title: 'Ronnie Payroll Report', files: [file] });
+        else alert("Please long-press the image to save it.");
+    } catch(e) { alert("Please long-press the image to save it."); }
 }
-// =========================================================
 
-document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
-autoDetectDay(); updateMonthSelector(); renderData();
+// APP INITIALIZATION
+document.getElementById('inputDate').value = getKrDateString();
+updateHeaderDate();
+checkMissingEntries();
+autoDetectDay(); 
+updateMonthSelector(); 
+renderData();
 </script>
 </body>
 </html>
